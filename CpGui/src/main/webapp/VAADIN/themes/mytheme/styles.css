@@ -12426,3 +12426,10 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: right;
 	font-weight: bold;
 }
+
+.mytheme .v-label-date {
+	color: white;
+	background-color: gray;
+	text-align: center;
+	font-weight: bold;
+}
