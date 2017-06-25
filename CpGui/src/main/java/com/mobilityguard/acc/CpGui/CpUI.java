@@ -15,7 +15,6 @@ import com.vaadin.ui.GridLayout.OverlapsException;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -77,7 +76,9 @@ public class CpUI extends UI {
 		final HorizontalLayout buttonLayout= new HorizontalLayout();
     	buttonLayout.setStyleName("buttonBackground");    	
     	final Button save = new Button("save");
-    	final Button cancel = new Button("cancel");  	
+    	save.setStyleName("saveButton");
+    	final Button cancel = new Button("cancel"); 
+    	cancel.setStyleName("cancelButton");
     	buttonLayout.addComponents(save,cancel);
     	rootLayout.addComponent(buttonLayout);
     	rootLayout.setComponentAlignment(buttonLayout, Alignment.BOTTOM_RIGHT);

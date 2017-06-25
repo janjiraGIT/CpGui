@@ -33,6 +33,18 @@
 
 @mixin mytheme {
   @include valo;  
+   .v-button-saveButton {
+   	background-color:yellow;
+  	color:black;
+  	text-align:center;
+  	font-weight:bold;
+  }
+    .v-button-cancelButton {
+   	background-color:blue;
+  	color:black;
+  	text-align:center;
+  	font-weight:bold;
+  }
   .v-label-titleLabel {
   	color:white;
   	background-color:gray;
@@ -51,6 +63,7 @@
   	text-align:center;
   	font-weight:bold;
   }
+
  
   
 }

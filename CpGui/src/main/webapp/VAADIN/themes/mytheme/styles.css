@@ -12413,6 +12413,20 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.mytheme .v-button-saveButton {
+	background-color: yellow;
+	color: black;
+	text-align: center;
+	font-weight: bold;
+}
+
+.mytheme .v-button-cancelButton {
+	background-color: blue;
+	color: black;
+	text-align: center;
+	font-weight: bold;
+}
+
 .mytheme .v-label-titleLabel {
 	color: white;
 	background-color: gray;
