@@ -12414,7 +12414,10 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .mytheme .v-button-saveButton {
-	background-color: yellow;
+	background-color: red;
+}
+
+.mytheme .v-button-saveButton {
 	color: black;
 	text-align: center;
 	font-weight: bold;

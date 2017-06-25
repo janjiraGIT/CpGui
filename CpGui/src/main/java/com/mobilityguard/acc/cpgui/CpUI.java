@@ -1,8 +1,14 @@
-package com.mobilityguard.acc.CpGui;
+package com.mobilityguard.acc.cpgui;
+
+import java.io.IOException;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.mobilityguard.acc.Data.DataTypeInfo;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+import com.mobilityguard.acc.controller.JsonController;
+import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -42,6 +48,17 @@ public class CpUI extends UI {
     	setGrid(selectLayout);
     	setButton(rootLayout);
     	setFooter(rootLayout);
+//    	JsonController jsoncontroller = new JsonController();
+//    	try {
+//			final JSONObject jsonObj = jsoncontroller.loadJsonData();
+//			System.out.println(jsonObj);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }
     
 	private HorizontalLayout setHeader(){

@@ -1,4 +1,4 @@
-package com.mobilityguard.acc.Data;
+package com.mobilityguard.acc.data;
 
 public class DataTypeInfo {
 	public static final String STATUS = "Status";

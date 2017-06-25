@@ -34,8 +34,10 @@
 @mixin mytheme {
   @include valo;  
    .v-button-saveButton {
-   	background-color:yellow;
-  	color:black;
+   	background-color:red;
+  }
+    .v-button-saveButton {
+    color:black;
   	text-align:center;
   	font-weight:bold;
   }
