@@ -1,13 +1,8 @@
 package com.mobilityguard.acc.cpgui;
 
-import java.io.IOException;
-
 import javax.servlet.annotation.WebServlet;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import com.mobilityguard.acc.controller.JsonController;
 import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -48,17 +43,6 @@ public class CpUI extends UI {
     	setGrid(selectLayout);
     	setButton(rootLayout);
     	setFooter(rootLayout);
-//    	JsonController jsoncontroller = new JsonController();
-//    	try {
-//			final JSONObject jsonObj = jsoncontroller.loadJsonData();
-//			System.out.println(jsonObj);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
     }
     
 	private HorizontalLayout setHeader(){
@@ -107,19 +91,45 @@ public class CpUI extends UI {
 	 */
 	private void setGrid(final HorizontalLayout selectLayout) throws OverlapsException, OutOfBoundsException {
 		final GridLayout grid = new GridLayout(6,6);
+		final DataTypeInfo dataTypeInfo = new DataTypeInfo();
+		final JSONObject status = dataTypeInfo.getStatus();
     	grid.addStyleName("grid");
     	grid.setWidth("1000px");
     	grid.setHeight("400px");
-    	grid.addComponent(new Label("Text1 : "),1,1);
-    	grid.addComponent(new Label("Text2 : "),1,2);
-    	grid.addComponent(new Label("Text3 : "),1,3);
-    	grid.addComponent(new Label("Text4 : "),1,4);
-    	grid.addComponent(new Label("Text5 :"),1,5);
-    	grid.addComponent(new TextField(),2,1);
-    	grid.addComponent(new TextField(),2,2);
-    	grid.addComponent(new TextField(),2,3);
-    	grid.addComponent(new TextField(),2,4);
-    	grid.addComponent(new TextField(),2,5);
+    	
+    	final Label lb1 = new Label("Text1");
+    	lb1.setStyleName("lb1");
+    	final Label lb2 = new Label("Text2");
+    	lb2.setStyleName("lb2");
+    	final Label lb3 = new Label("Text3");
+    	lb3.setStyleName("lb3");
+    	final Label lb4 = new Label("Text4");
+    	lb4.setStyleName("lb4");
+    	final Label lb5 = new Label("Text5");
+    	lb5.setStyleName("lb5");
+    	
+    	grid.addComponent(lb1,1,1);
+    	grid.addComponent(lb2,1,2);
+    	grid.addComponent(lb3,1,3);
+    	grid.addComponent(lb4,1,4);
+    	grid.addComponent(lb5,1,5);
+    	
+    	TextField tf1 = new TextField();
+    	tf1.setValue(status.get("text1").toString());
+    	TextField tf2 = new TextField();
+    	tf2.setValue(status.get("text2").toString());
+    	TextField tf3 = new TextField();
+    	tf3.setValue(status.get("text3").toString());
+    	TextField tf4 = new TextField();
+    	tf4.setValue(status.get("text4").toString());
+    	TextField tf5 = new TextField();
+    	tf5.setValue(status.get("text5").toString());
+    	
+    	grid.addComponent(tf1,2,1);
+    	grid.addComponent(tf2,2,2);
+    	grid.addComponent(tf3,2,3);
+    	grid.addComponent(tf4,2,4);
+    	grid.addComponent(tf5,2,5);
     	selectLayout.addComponent(grid);
 	}
 
@@ -131,15 +141,14 @@ public class CpUI extends UI {
 		final HorizontalLayout menuLayout = new HorizontalLayout();
     	menuLayout.setSizeFull();
     	rootLayout.addComponent(menuLayout);
-    	rootLayout.setExpandRatio(menuLayout, 1);
-    	
+    	rootLayout.setExpandRatio(menuLayout, 1);  	
     	final HorizontalLayout selectLayout = new HorizontalLayout();
     	selectLayout.setStyleName("selectLayout");
     	menuLayout.addComponent(selectLayout);
     	selectLayout.setWidth("50%");
     	selectLayout.setHeight("100%");
     	final DataTypeInfo dataTypeInfo = new DataTypeInfo();
-    	final String status = dataTypeInfo.getStatus();
+    	//final JSONObject status = dataTypeInfo.getStatus();
     	final String network = dataTypeInfo.getNetwork();
     	final String access = dataTypeInfo.getAccess();
     	final String tlss = dataTypeInfo.getTLSS();
@@ -149,7 +158,7 @@ public class CpUI extends UI {
     	final String activeex = dataTypeInfo.getActiveEx();  	
     	final ListSelect<String> selectMenu = new ListSelect<>();
     	selectMenu.setStyleName("selectMenu");
-    	selectMenu.setItems(status, network, access, tlss, syslog, reportconfig, maintain, activeex );    	
+    	selectMenu.setItems("status", network, access, tlss, syslog, reportconfig, maintain, activeex );    	
     	selectMenu.setHeight("100%");
     	selectMenu.setWidth("100%");
     	selectLayout.addComponent(selectMenu);
