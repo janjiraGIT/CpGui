@@ -158,7 +158,7 @@ public class CpUI extends UI {
     	final String activeex = dataTypeInfo.getActiveEx();  	
     	final ListSelect<String> selectMenu = new ListSelect<>();
     	selectMenu.setStyleName("selectMenu");
-    	selectMenu.setItems("status", network, access, tlss, syslog, reportconfig, maintain, activeex );    	
+    	selectMenu.setItems("Status", network, access, tlss, syslog, reportconfig, maintain, activeex );    	
     	selectMenu.setHeight("100%");
     	selectMenu.setWidth("100%");
     	selectLayout.addComponent(selectMenu);

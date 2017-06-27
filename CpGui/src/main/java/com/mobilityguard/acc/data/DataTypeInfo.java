@@ -2,6 +2,7 @@ package com.mobilityguard.acc.data;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -14,26 +15,25 @@ public class DataTypeInfo {
 	public static final String TLSS = "TLS Server settings";
 	public static final String SYSLOG = "Syslog";
 	public static final String REPORTCONFIG = "Report Config";
-	public static final String MAINTAIN = "Maintain";
-	public static final String ACTIVATEEX = "Activate Exchanges";
+	public static final String MAINTAIN = "Maintenance";
+	public static final String ACTIVATEEX = "Activate Changes";
 	private JSONObject jsonObj = null;
+	final static Logger logger = Logger.getLogger(DataTypeInfo.class);
 
 	public JSONObject getStatus() {
     	final JsonController jsoncontroller = new JsonController();
     	try {
 			jsonObj = jsoncontroller.loadJsonData();
 			if (jsonObj.isEmpty()) {
-				System.out.println("Json Object is empty");			
+				logger.info("Json Object is empty!");	
 			}
-			System.out.println("Testing on console : " + jsonObj);
+			logger.info("This is for test on console :" + jsonObj);
 			String text1 = (String) jsonObj.get("text1");
-			System.out.println(text1);
+			logger.info("Json Object output : " + text1);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("IOException" + e.getStackTrace());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("ParseException" + e.getStackTrace());
 		}
 		return jsonObj;
 	}
@@ -58,8 +58,4 @@ public class DataTypeInfo {
 	public String getActiveEx() {
 		return ACTIVATEEX;
 	}
-	
-
-
-
 }
