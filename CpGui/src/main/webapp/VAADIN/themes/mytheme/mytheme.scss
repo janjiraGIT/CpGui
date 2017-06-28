@@ -32,8 +32,8 @@
 @import "../valo/valo.scss";
 
 @mixin mytheme {
-  @include valo;  
-   .v-button-saveButton {
+  @include valo;
+ .v-button-saveButton {
    	background-color:red;
   }
     .v-button-saveButton {
@@ -46,6 +46,12 @@
   	color:black;
   	text-align:center;
   	font-weight:bold;
+  }
+  .v-label-ncTitle {
+  	font-size: 20px;
+  	font-weight:bold;
+  	color:black;
+  	text-align:center;
   }
   .v-label-titleLabel {
   	color:white;
@@ -65,29 +71,46 @@
   	text-align:center;
   	font-weight:bold;
   }
- .v-label-lb1 {
+    .v-label-icTitle {
+  	font-size: 20px;
+  	font-weight:bold;
   	color:black;
   	text-align:center;
-  	font-weight:bold;
   }
-  .v-label-lb2 {
-  	color:black;
-  	text-align:center;
+    .v-label-niTitle {
+  	font-size: 16px;
   	font-weight:bold;
+  	color:black;
+  	text-align:right;
   }
-   .v-label-lb3 {
+    .v-label-ni01Title {
+  	font-size: 16px;
+  	font-weight:bold;
   	color:black;
   	text-align:center;
-  	font-weight:bold;
   }
-   .v-label-lb4 {
-  	color:black;
-  	text-align:center;
+  .v-label-Ipv4 {
   	font-weight:bold;
+  	font-size: 15px;
+  	color:black;
+  	text-align:left;
   }
-   .v-label-lb5 {
-  	color:black;
-  	text-align:center;
+  .v-label-Ipv6 {
   	font-weight:bold;
+  	font-size: 15px;
+  	color:black;
+  	text-align:left;
+  }
+  .v-label-Ipv41 {
+  	font-weight:bold;
+  	font-size: 15px;
+  	color:black;
+  	text-align:left;
+  }
+  .v-label-Ipv61 {
+  	font-weight:bold;
+  	font-size: 15px;
+  	color:black;
+  	text-align:left;
   }
 }

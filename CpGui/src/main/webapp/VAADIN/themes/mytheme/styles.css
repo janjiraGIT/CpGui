@@ -12430,6 +12430,13 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 }
 
+.mytheme .v-label-ncTitle {
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+}
+
 .mytheme .v-label-titleLabel {
 	color: white;
 	background-color: gray;
@@ -12451,32 +12458,51 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 }
 
-.mytheme .v-label-lb1 {
+.mytheme .v-label-icTitle {
+	font-size: 20px;
+	font-weight: bold;
 	color: black;
 	text-align: center;
-	font-weight: bold;
 }
 
-.mytheme .v-label-lb2 {
-	color: black;
-	text-align: center;
+.mytheme .v-label-niTitle {
+	font-size: 16px;
 	font-weight: bold;
+	color: black;
+	text-align: right;
 }
 
-.mytheme .v-label-lb3 {
+.mytheme .v-label-ni01Title {
+	font-size: 16px;
+	font-weight: bold;
 	color: black;
 	text-align: center;
-	font-weight: bold;
 }
 
-.mytheme .v-label-lb4 {
-	color: black;
-	text-align: center;
+.mytheme .v-label-Ipv4 {
 	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-align: left;
 }
 
-.mytheme .v-label-lb5 {
-	color: black;
-	text-align: center;
+.mytheme .v-label-Ipv6 {
 	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-align: left;
+}
+
+.mytheme .v-label-Ipv41 {
+	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-align: left;
+}
+
+.mytheme .v-label-Ipv61 {
+	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-align: left;
 }
