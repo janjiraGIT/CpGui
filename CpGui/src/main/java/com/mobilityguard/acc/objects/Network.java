@@ -68,8 +68,4 @@ public class Network implements Serializable{
 				+ ", networkInter0Ipv4=" + networkInter0Ipv4 + ", networkInter0Ipv6=" + networkInter0Ipv6
 				+ ", networkInter1Ipv4=" + networkInter1Ipv4 + ", networkInter1Ipv6=" + networkInter1Ipv6 + "]";
 	}
-	
-	
-	
-
 }

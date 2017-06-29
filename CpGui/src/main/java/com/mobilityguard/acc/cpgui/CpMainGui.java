@@ -47,7 +47,8 @@ public class CpMainGui extends UI {
         final HorizontalLayout titleLayout = setHeader();
         rootLayout.addComponent(titleLayout);   
         final HorizontalLayout selectLayout = setMenu(rootLayout);  
-        setButton(rootLayout);
+        //rootLayout.addComponent(selectLayout);
+       // setButton(rootLayout);
         setFooter(rootLayout);
     }
     
@@ -76,20 +77,6 @@ public class CpMainGui extends UI {
         rootLayout.addComponent(footerBackground);
         rootLayout.setComponentAlignment(footerBackground, Alignment.BOTTOM_CENTER);
     }
-    /**
-     * @param rootLayout
-     */
-    private void setButton(final VerticalLayout rootLayout) {
-        final HorizontalLayout buttonLayout= new HorizontalLayout();
-        buttonLayout.setStyleName("buttonBackground");      
-        final Button save = new Button("save");
-        save.setStyleName("saveButton");
-        final Button cancel = new Button("cancel"); 
-        cancel.setStyleName("cancelButton");
-        buttonLayout.addComponents(save,cancel);
-        rootLayout.addComponent(buttonLayout);
-        rootLayout.setComponentAlignment(buttonLayout, Alignment.BOTTOM_RIGHT);
-    }
 
     /**
      * @param rootLayout
@@ -103,7 +90,7 @@ public class CpMainGui extends UI {
         final HorizontalLayout selectLayout = new HorizontalLayout();
         selectLayout.setStyleName("selectLayout");
         menuLayout.addComponent(selectLayout);
-        selectLayout.setWidth("20%");
+        selectLayout.setWidth("50%");
         selectLayout.setHeight("50%");
         final DataTypeInfo dataTypeInfo = new DataTypeInfo();
         final String network = dataTypeInfo.getNetwork();
@@ -117,7 +104,7 @@ public class CpMainGui extends UI {
         selectMenu.setStyleName("selectMenu");
         selectMenu.setItems("Status", network, access, tlss, syslog, reportconfig, maintain, activeex );        
         selectMenu.setHeight("100%");
-        selectMenu.setWidth("100%");    
+        selectMenu.setWidth("70%");    
         selectMenu.addValueChangeListener(event -> {
 
             Set<String> selected = event.getValue();

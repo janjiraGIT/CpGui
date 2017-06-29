@@ -2,10 +2,14 @@ package com.mobilityguard.acc.cpgui;
 
 import com.vaadin.annotations.Theme;
 import com.mobilityguard.acc.data.DataTypeInfo;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.GridLayout.OutOfBoundsException;
 import com.vaadin.ui.GridLayout.OverlapsException;
 
@@ -160,9 +164,22 @@ public class NetworkGui {
         grid.addComponent(tfAddV61,3,18);
         grid.addComponent(tfNmV61,3,19);
         grid.addComponent(tfGwV61,3,20);
+        setButton(grid);
         
-        return grid;
-        
+        return grid;      
     }
     
+    /**
+     * @param rootLayout
+     */
+    private void setButton(final GridLayout grid) {
+        final HorizontalLayout buttonLayout= new HorizontalLayout();
+        buttonLayout.setStyleName("buttonBackground");      
+        final Button save = new Button("save");
+        save.setStyleName("saveButton");
+        final Button cancel = new Button("cancel"); 
+        cancel.setStyleName("cancelButton");
+        buttonLayout.addComponents(save,cancel);
+        grid.addComponent(buttonLayout,5,23);
+    }    
 }

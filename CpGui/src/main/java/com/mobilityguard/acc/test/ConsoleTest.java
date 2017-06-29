@@ -15,11 +15,7 @@ public class ConsoleTest {
 		
 		HashMap<String,String> hmap = new HashMap<String,String>();
 		hmap.put("address", "10.230.34");
-		nw.setNetworkInter0Ipv4(hmap);
-		
+		nw.setNetworkInter0Ipv4(hmap);	
 		System.out.println(nw);
-
-
 	}
-
 }
