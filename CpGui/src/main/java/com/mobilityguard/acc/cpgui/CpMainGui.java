@@ -37,6 +37,7 @@ public class CpMainGui extends UI {
 	final static Logger logger = Logger.getLogger(CpMainGui.class);
     final NetworkGui gridComponent = new NetworkGui();
     private GridLayout gridLayout = null;
+    private VerticalLayout detailLayout = new VerticalLayout();
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -44,15 +45,15 @@ public class CpMainGui extends UI {
         rootLayout.setStyleName("root");
         rootLayout.setSizeFull();
         setContent(rootLayout);
-        final HorizontalLayout titleLayout = setHeader();
+        final HorizontalLayout titleLayout = addTitle();
         rootLayout.addComponent(titleLayout);   
-        final HorizontalLayout selectLayout = setMenu(rootLayout);  
+        final HorizontalLayout selectLayout = addMenuBar(rootLayout);  
         //rootLayout.addComponent(selectLayout);
        // setButton(rootLayout);
         setFooter(rootLayout);
     }
     
-    private HorizontalLayout setHeader(){
+    private HorizontalLayout addTitle(){
         final HorizontalLayout titleLayout = new HorizontalLayout();
         titleLayout.setStyleName("titleLayout");
         titleLayout.setWidth("100%");
@@ -82,11 +83,13 @@ public class CpMainGui extends UI {
      * @param rootLayout
      * @return
      */
-    private HorizontalLayout setMenu(final VerticalLayout rootLayout) {
+    private HorizontalLayout addMenuBar(final VerticalLayout rootLayout) {
         final HorizontalLayout menuLayout = new HorizontalLayout();
-        menuLayout.setSizeFull();
+        //menuLayout.setSizeFull();
         rootLayout.addComponent(menuLayout);
+        //?
         rootLayout.setExpandRatio(menuLayout, 1);   
+        
         final HorizontalLayout selectLayout = new HorizontalLayout();
         selectLayout.setStyleName("selectLayout");
         menuLayout.addComponent(selectLayout);
@@ -110,14 +113,16 @@ public class CpMainGui extends UI {
             Set<String> selected = event.getValue();
             if ( selected.contains("Network")){
                 Notification.show("Selected : " + selected.toString());
+            	//final VerticalLayout detailLayout = new VerticalLayout();
                 gridLayout = gridComponent.crateNetworkGui();
-                selectLayout.addComponent(gridLayout);
+                detailLayout.addComponent(gridLayout);
+                //selectLayout.addComponent(gridLayout);
+                menuLayout.addComponent(detailLayout);
             }else {
                 // TODO : error NullPointerException when select other menu. Need to be fix.
                 Notification.show("Not Selected Network : " + selected.toString());
-                if (selectLayout != null ){
-                    selectLayout.removeComponent(gridLayout);
-                }
+                	detailLayout.removeComponent(gridLayout);
+                    menuLayout.removeComponent(detailLayout);
             }        
         });
         selectLayout.addComponent(selectMenu);

@@ -9,11 +9,11 @@ public class Network implements Serializable{
 	private String domain;
 	private String dns1;
 	private String dns2;
-	// HashMap<String,String> hmap = new HashMap<String,String>();
 	private HashMap<String,String> networkInter0Ipv4;
 	private HashMap<String,String> networkInter0Ipv6;
 	private HashMap<String,String> networkInter1Ipv4;
 	private HashMap<String,String> networkInter1Ipv6;
+	
 	public String getHostName() {
 		return hostName;
 	}

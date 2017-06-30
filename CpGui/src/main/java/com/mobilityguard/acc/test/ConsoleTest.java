@@ -12,7 +12,6 @@ public class ConsoleTest {
 		nw.setDomain("jdfkalfdklas");
 		nw.setDns1("aaa");
 		nw.setDns2("df");
-		
 		HashMap<String,String> hmap = new HashMap<String,String>();
 		hmap.put("address", "10.230.34");
 		nw.setNetworkInter0Ipv4(hmap);	
