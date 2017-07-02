@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.ClassResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
@@ -17,6 +18,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.GridLayout.OutOfBoundsException;
 import com.vaadin.ui.GridLayout.OverlapsException;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.Notification;
@@ -34,6 +36,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @Theme("mytheme")
 public class CpMainGui extends UI {
+	private static final String SELECT_LAYOUT = "selectLayout";
 	final static Logger logger = Logger.getLogger(CpMainGui.class);
     final NetworkGui gridComponent = new NetworkGui();
     private GridLayout gridLayout = null;
@@ -44,12 +47,12 @@ public class CpMainGui extends UI {
         final VerticalLayout rootLayout = new VerticalLayout();
         rootLayout.setStyleName("root");
         rootLayout.setSizeFull();
+        //Image image = new Image("p1", new ClassResource("./jsonFile/photo.png"));
+        //rootLayout.addComponent(image);
         setContent(rootLayout);
         final HorizontalLayout titleLayout = addTitle();
         rootLayout.addComponent(titleLayout);   
         final HorizontalLayout selectLayout = addMenuBar(rootLayout);  
-        //rootLayout.addComponent(selectLayout);
-       // setButton(rootLayout);
         setFooter(rootLayout);
     }
     
@@ -91,7 +94,7 @@ public class CpMainGui extends UI {
         rootLayout.setExpandRatio(menuLayout, 1);   
         
         final HorizontalLayout selectLayout = new HorizontalLayout();
-        selectLayout.setStyleName("selectLayout");
+        selectLayout.setStyleName(SELECT_LAYOUT);
         menuLayout.addComponent(selectLayout);
         selectLayout.setWidth("50%");
         selectLayout.setHeight("50%");
@@ -108,28 +111,43 @@ public class CpMainGui extends UI {
         selectMenu.setItems("Status", network, access, tlss, syslog, reportconfig, maintain, activeex );        
         selectMenu.setHeight("100%");
         selectMenu.setWidth("70%");    
-        selectMenu.addValueChangeListener(event -> {
-
-            Set<String> selected = event.getValue();
-            if ( selected.contains("Network")){
-                Notification.show("Selected : " + selected.toString());
-            	//final VerticalLayout detailLayout = new VerticalLayout();
-                gridLayout = gridComponent.crateNetworkGui();
-                detailLayout.addComponent(gridLayout);
-                //selectLayout.addComponent(gridLayout);
-                menuLayout.addComponent(detailLayout);
-            }else {
-                // TODO : error NullPointerException when select other menu. Need to be fix.
-                Notification.show("Not Selected Network : " + selected.toString());
-                	detailLayout.removeComponent(gridLayout);
-                    menuLayout.removeComponent(detailLayout);
-            }        
-        });
+        
+        actionAfterSelectMenu(menuLayout, selectMenu);
+        
         selectLayout.addComponent(selectMenu);
         return selectLayout;
     }
 
-    
+	/**
+	 * @param menuLayout
+	 * @param selectMenu
+	 */
+	private void actionAfterSelectMenu(final HorizontalLayout menuLayout, final ListSelect<String> selectMenu) {
+		selectMenu.addValueChangeListener(event -> {
+        final Set<String> selected = event.getValue();
+            if ( selected.contains("Network")){
+                Notification.show("Selected : " + selected.toString());
+            	//final VerticalLayout detailLayout = new VerticalLayout();
+                gridLayout = gridComponent.crateNetworkGui();
+                detailLayout.setStyleName("detailLayout");
+                detailLayout.addComponent(gridLayout);
+                //selectLayout.addComponent(gridLayout);
+                menuLayout.addComponent(detailLayout);
+            }else {
+                // TODO : some bug.. need to select network first otherwise it will error.
+                Notification.show("Not Selected Network : " + selected.toString());
+                //detailLayout.addComponent(new Label("test"));
+                if (detailLayout != null){
+                	detailLayout.removeComponent(gridLayout);
+                    menuLayout.removeComponent(detailLayout);
+                }else {
+                	detailLayout.addComponent(new Label("test"));
+                }
+                	
+            }        
+        });
+	}
+
     @WebServlet(urlPatterns = "/*", name = "CpUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = CpMainGui.class, productionMode = false)
     public static class CpUIServlet extends VaadinServlet {
