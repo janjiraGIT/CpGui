@@ -108,6 +108,7 @@ public class NetworkGui {
         cbV4.addValueChangeListener( event -> 
         	doEnabledFalseTextFields(tfAddV4,tfNmV4,tfGwV4)
         );
+        
         final CheckBox cbV6 = new CheckBox();
         final TextField tfAddV6 = new TextField();
         final TextField tfNmV6 = new TextField();
@@ -194,8 +195,13 @@ public class NetworkGui {
         grid.addComponent(buttonLayout,5,23);
     } 
     private void doEnabledFalseTextFields(TextField tfAddV4, TextField tfNmV4, TextField tfGwV4){
-    	tfAddV4.setEnabled(false);
-        tfNmV4.setEnabled(false);
-        tfGwV4.setEnabled(false); 	
-    }
+    	if (tfAddV4.isEnabled() && tfNmV4.isEnabled() && tfGwV4.isEnabled()){
+    		tfAddV4.setEnabled(false);
+            tfNmV4.setEnabled(false);
+            tfGwV4.setEnabled(false); 	
+    	}else {
+    		tfAddV4.setEnabled(true);
+            tfNmV4.setEnabled(true);
+            tfGwV4.setEnabled(true); 
+    	};}
 }
