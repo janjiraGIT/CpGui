@@ -47,8 +47,6 @@ public class CpMainGui extends UI {
         final VerticalLayout rootLayout = new VerticalLayout();
         rootLayout.setStyleName("root");
         rootLayout.setSizeFull();
-        //Image image = new Image("p1", new ClassResource("./jsonFile/photo.png"));
-        //rootLayout.addComponent(image);
         setContent(rootLayout);
         final HorizontalLayout titleLayout = addTitle();
         rootLayout.addComponent(titleLayout);   
@@ -127,16 +125,13 @@ public class CpMainGui extends UI {
         final Set<String> selected = event.getValue();
             if ( selected.contains("Network")){
                 Notification.show("Selected : " + selected.toString());
-            	//final VerticalLayout detailLayout = new VerticalLayout();
                 gridLayout = gridComponent.crateNetworkGui();
                 detailLayout.setStyleName("detailLayout");
                 detailLayout.addComponent(gridLayout);
-                //selectLayout.addComponent(gridLayout);
                 menuLayout.addComponent(detailLayout);
             }else {
                 // TODO : some bug.. need to select network first otherwise it will error.
                 Notification.show("Not Selected Network : " + selected.toString());
-                //detailLayout.addComponent(new Label("test"));
                 if (detailLayout != null){
                 	detailLayout.removeComponent(gridLayout);
                     menuLayout.removeComponent(detailLayout);

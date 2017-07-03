@@ -102,14 +102,19 @@ public class NetworkGui {
         final Label lbIpv6 = new Label(IPV6);
         lbIpv6.addStyleName("Ipv6");
         final CheckBox cbV4 = new CheckBox();
-        final CheckBox cbV6 = new CheckBox();
         final TextField tfAddV4 = new TextField();
         final TextField tfNmV4 = new TextField();
         final TextField tfGwV4 = new TextField();
-        
+        cbV4.addValueChangeListener( event -> 
+        	doEnabledFalseTextFields(tfAddV4,tfNmV4,tfGwV4)
+        );
+        final CheckBox cbV6 = new CheckBox();
         final TextField tfAddV6 = new TextField();
         final TextField tfNmV6 = new TextField();
         final TextField tfGwV6 = new TextField();
+        cbV6.addValueChangeListener( event -> 
+    	doEnabledFalseTextFields(tfAddV6,tfNmV6,tfGwV6)
+        );
         
         grid.addComponent(lbIpv4,2,10);
         grid.addComponent(lbIpv6,3,10);
@@ -145,14 +150,20 @@ public class NetworkGui {
         final Label lbIpv61 = new Label("IPv6");
         lbIpv61.addStyleName("Ipv61");
         final CheckBox cbV41 = new CheckBox();
-        final CheckBox cbV61 = new CheckBox();
         final TextField tfAddV41 = new TextField();
         final TextField tfNmV41 = new TextField();
         final TextField tfGwV41 = new TextField();
-        
+        cbV41.addValueChangeListener( event -> 
+    	doEnabledFalseTextFields(tfAddV41,tfNmV41,tfGwV41)
+        );
+
+        final CheckBox cbV61 = new CheckBox();
         final TextField tfAddV61 = new TextField();
         final TextField tfNmV61 = new TextField();
         final TextField tfGwV61 = new TextField();
+        cbV61.addValueChangeListener( event -> 
+    	doEnabledFalseTextFields(tfAddV61,tfNmV61,tfGwV61)
+        );
         
         grid.addComponent(lbIpv41,2,16);
         grid.addComponent(lbIpv61,3,16);
@@ -181,5 +192,10 @@ public class NetworkGui {
         cancel.setStyleName("cancelButton");
         buttonLayout.addComponents(save,cancel);
         grid.addComponent(buttonLayout,5,23);
-    }    
+    } 
+    private void doEnabledFalseTextFields(TextField tfAddV4, TextField tfNmV4, TextField tfGwV4){
+    	tfAddV4.setEnabled(false);
+        tfNmV4.setEnabled(false);
+        tfGwV4.setEnabled(false); 	
+    }
 }

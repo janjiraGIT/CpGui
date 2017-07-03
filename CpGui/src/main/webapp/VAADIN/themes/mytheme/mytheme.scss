@@ -31,32 +31,27 @@
 
 $v-font-size: 14px;
 $v-font-family:sans-serif;
-$v-background-color: hsl(210deg, 0%, 100%);
+$v-background-color: hsl(194, 100%, 95%);
 $v-focus-color: blue;
-$v-gradient: v-linear 100%;
+$v-gradient: v-linear 50%;
 
 @import "../valo/valo.scss";
 
 @mixin mytheme {
   @include valo;
   .v-button-saveButton {
-	@include valo-button-style($background-color: #b4085b);
-  }
-  
- .v-button-saveButton {
-   	@include valo-button-style($background-color: #b4085b);
-  }
-    .v-button-saveButton {
-    color:black;
+	@include valo-button-style($background-color: hsl(194, 100%, 40%));
+	color:white;
   	text-align:center;
   	font-weight:bold;
+	
   }
-    .v-button-cancelButton {
-   	background-color:blue;
-  	color:black;
+  .v-button-cancelButton {
+ 	@include valo-button-style($background-color: hsl(30, 100%, 50%));
+ 	color:white;
   	text-align:center;
   	font-weight:bold;
-  }
+ }
   .v-label-ncTitle {
   	font-size: 20px;
   	font-weight:bold;
