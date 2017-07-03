@@ -72,7 +72,7 @@ public class CpMainGui extends UI {
     private void setFooter(final VerticalLayout rootLayout) {
         final HorizontalLayout footerBackground = new HorizontalLayout();
         footerBackground.setWidth("100%");
-        final Label date = new Label("2017-06");
+        final Label date = new Label("Mobilityguard AB");
         date.setWidth("100%");
         date.setStyleName("date");
         footerBackground.addComponent(date);
@@ -95,7 +95,7 @@ public class CpMainGui extends UI {
         selectLayout.setStyleName(SELECT_LAYOUT);
         menuLayout.addComponent(selectLayout);
         selectLayout.setWidth("50%");
-        selectLayout.setHeight("50%");
+        selectLayout.setHeight("100%");
         final DataTypeInfo dataTypeInfo = new DataTypeInfo();
         final String network = dataTypeInfo.getNetwork();
         final String access = dataTypeInfo.getAccess();
@@ -108,7 +108,7 @@ public class CpMainGui extends UI {
         selectMenu.setStyleName("selectMenu");
         selectMenu.setItems("Status", network, access, tlss, syslog, reportconfig, maintain, activeex );        
         selectMenu.setHeight("100%");
-        selectMenu.setWidth("70%");    
+        selectMenu.setWidth("50%");    
         
         actionAfterSelectMenu(menuLayout, selectMenu);
         
@@ -129,7 +129,14 @@ public class CpMainGui extends UI {
                 detailLayout.setStyleName("detailLayout");
                 detailLayout.addComponent(gridLayout);
                 menuLayout.addComponent(detailLayout);
-            }else {
+            }else if (selected.contains("Access Config for Control Panel")){
+            	detailLayout.removeAllComponents();
+            	Notification.show("Selected : " + selected.toString());
+            	AccessGui accessGui = new AccessGui();
+            	final GridLayout gridAccessGui = accessGui.createAccessGui();
+            	detailLayout.addComponent(gridAccessGui);   
+            	menuLayout.addComponent(detailLayout);
+            } else {
                 // TODO : some bug.. need to select network first otherwise it will error.
                 Notification.show("Not Selected Network : " + selected.toString());
                 if (detailLayout != null){

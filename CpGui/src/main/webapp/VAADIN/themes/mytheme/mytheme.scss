@@ -32,7 +32,7 @@
 $v-font-size: 14px;
 $v-font-family:sans-serif;
 $v-background-color: hsl(194, 100%, 95%);
-$v-focus-color: blue;
+$v-focus-color: #007599 ;
 $v-gradient: v-linear 50%;
 
 @import "../valo/valo.scss";
@@ -48,7 +48,7 @@ $v-gradient: v-linear 50%;
   }
   .v-button-cancelButton {
  	@include valo-button-style($background-color: hsl(30, 100%, 50%));
- 	color:white;
+ 	color: white;
   	text-align:center;
   	font-weight:bold;
  }
@@ -68,12 +68,6 @@ $v-gradient: v-linear 50%;
   	color:white;
   	background-color:gray;
   	text-align:right;
-  	font-weight:bold;
-  }
-  .v-label-date {
-  	color:white;
-  	background-color:gray;
-  	text-align:center;
   	font-weight:bold;
   }
     .v-label-icTitle {
