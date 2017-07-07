@@ -14,19 +14,10 @@ public class UserChangWindow {
     /**
      * @return ChangUser window.
      */
-    public void changeUser() {
-        final Window userWindow = new Window("Change admin credentials");
+    public void changeUser(final GridLayout grid) {
+        //final Window userWindow = new Window("Change admin credentials");
         final VerticalLayout layoutUser = new VerticalLayout();
         layoutUser.setSizeFull();
-        userWindow.setContent(layoutUser);
-        userWindow.center();
-        userWindow.setHeight("80%");
-        userWindow.setWidth("50%");
-
-        final GridLayout gdUser = new GridLayout(4,10);
-        gdUser.setWidth("1000px");
-        gdUser.setHeight("700px");
-
         final Label adUser = new Label(ADMIN_USER);
         adUser.setStyleName("adUser");
         final Label adPass = new Label(ADMIN_PASSWORD);
@@ -37,14 +28,11 @@ public class UserChangWindow {
         final TextField tfPass = new TextField();
         final TextField tfPassAgain = new TextField();
 
-        gdUser.addComponent(adUser,1,1);
-        gdUser.addComponent(adPass,1,2);
-        gdUser.addComponent(adPassAgain,1,3);
-        gdUser.addComponent(tfUser,2,1);
-        gdUser.addComponent(tfPass,2,2);
-        gdUser.addComponent(tfPassAgain,2,3);
-
-       // return userWindow;
-
+        grid.addComponent(adUser,1,15);
+        grid.addComponent(adPass,1,16);
+        grid.addComponent(adPassAgain,1,17);
+        grid.addComponent(tfUser,2,15);
+        grid.addComponent(tfPass,2,16);
+        grid.addComponent(tfPassAgain,2,17);
     }
 }

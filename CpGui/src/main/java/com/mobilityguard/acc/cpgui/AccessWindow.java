@@ -23,13 +23,13 @@ public class AccessWindow {
         layoutAc.setSizeFull();
         acWindow.setContent(layoutAc);
         acWindow.center();
-        acWindow.setHeight("80%");
-        acWindow.setWidth("50%");
+        acWindow.setHeight("90%");
+        acWindow.setWidth("65%");
 
         final GridLayout gd = new GridLayout(7,30);
         gd.addStyleName("gdAccessWindow");
-        gd.setWidth("1000px");
-        gd.setHeight("700px");
+        gd.setWidth("500px");
+        gd.setHeight("200px");
 
         final Label accessTitle = new Label(CONTROL_PANEL_ACCESS);
         accessTitle.addStyleName("accessTitle");
@@ -52,11 +52,19 @@ public class AccessWindow {
         cAdminTf.setEnabled(false);
         gd.addComponent(cAdminLb,0,14);
         gd.addComponent(cAdminTf,1,14);
-//        final ButtonsFactory buttons = new ButtonsFactory();
-//        buttons.createChangeButtons(gd);
+        final ButtonsFactory buttons = new ButtonsFactory();
+        buttons.createChangeButton(gd);
+
         layoutAc.addComponent(gd);
-//        GridLayout gdUser = changeUser();
-//        layoutAc.addComponent(gdUser);
+
+       // VerticalLayout var = new VerticalLayout();
+       // var.addComponent(new Label("TEST"));
+       
+        
+        //layoutAc.addComponent(var);
+        
+
+        
         return acWindow;
     }
 }
