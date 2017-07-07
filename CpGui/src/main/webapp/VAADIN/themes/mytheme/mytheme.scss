@@ -28,88 +28,109 @@
 
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Example
-
 $v-font-size: 14px;
+
 $v-font-family:sans-serif;
+
 $v-background-color: hsl(194, 100%, 95%);
+
 $v-focus-color: #007599 ;
+
 $v-gradient: v-linear 50%;
+
 
 @import "../valo/valo.scss";
 
 @mixin mytheme {
   @include valo;
-  .v-button-saveButton {
-	@include valo-button-style($background-color: hsl(194, 100%, 40%));
-	color:white;
-  	text-align:center;
-  	font-weight:bold;
-	
-  }
-  .v-button-cancelButton {
- 	@include valo-button-style($background-color: hsl(30, 100%, 50%));
- 	color: white;
-  	text-align:center;
-  	font-weight:bold;
- }
-  .v-label-ncTitle {
-  	font-size: 20px;
-  	font-weight:bold;
-  	color:black;
-  	text-align:center;
-  }
-  .v-label-titleLabel {
-  	color:white;
-  	background-color:gray;
-  	text-align:center;
-  	font-weight:bold;
-  }
-  .v-label-dateLabel {
-  	color:white;
-  	background-color:gray;
-  	text-align:right;
-  	font-weight:bold;
-  }
+	.v-button-saveButton {
+		@include valo-button-style($background-color: hsl(194, 100%, 40%));
+		color:white;
+		text-align:center;
+  		font-weight:bold;
+  	}
+	.v-button-cancelButton {
+		@include valo-button-style($background-color: hsl(30, 100%, 50%));
+		color: white;
+		text-align:center;
+		font-weight:bold;
+ 	}
+ 	.v-button-changeButton {
+		@include valo-button-style($background-color: hsl(194, 100%, 40%));
+		color:white;
+		text-align:center;
+  		font-weight:bold;
+  	}
+	.v-label-ncTitle {
+		font-size: 20px;
+  		font-weight:bold;
+  		color:black;
+  		text-align:center;
+  	}
+  	.v-label-titleLabel {
+  		color:white;
+  		background-color:gray;
+		text-align:center;
+  		font-weight:bold;
+  	}
+  	.v-label-accessTitle {
+		font-size: 20px;
+  		font-weight:bold;
+  		color:black;
+  		text-align:center;
+  	}
+  	.v-label-cAdminLb {
+		font-size: 16px;
+  		font-weight:bold;
+  		color:black;
+  		text-align:center;
+  	}
+  	.v-label-ipTitle {
+		font-size: 16px;
+  		font-weight:bold;
+  		color:black;
+  		text-align:center;
+  	}
     .v-label-icTitle {
-  	font-size: 20px;
-  	font-weight:bold;
-  	color:black;
-  	text-align:center;
-  }
-    .v-label-niTitle {
-  	font-size: 16px;
-  	font-weight:bold;
-  	color:black;
-  	text-align:right;
+		font-size: 20px;
+  		font-weight:bold;
+  		color:black;
+  		text-align:center;
+  	}
+	.v-label-niTitle {
+		font-size: 16px;
+		font-weight:bold;
+		color:black;
+		text-align:right;
   }
     .v-label-ni01Title {
-  	font-size: 16px;
-  	font-weight:bold;
-  	color:black;
-  	text-align:center;
+	  	font-size: 16px;
+	  	font-weight:bold;
+	  	color:black;
+	  	text-align:center;
   }
-  .v-label-Ipv4 {
-  	font-weight:bold;
-  	font-size: 15px;
-  	color:black;
-  	text-align:left;
+  	.v-label-Ipv4 {
+  		font-weight:bold;
+  		font-size: 15px;
+  		color:black;
+  		text-align:left;
   }
-  .v-label-Ipv6 {
-  	font-weight:bold;
-  	font-size: 15px;
-  	color:black;
-  	text-align:left;
+  	.v-label-Ipv6 {
+		font-weight:bold;
+		font-size: 15px;
+		color:black;
+		text-align:left;
   }
-  .v-label-Ipv41 {
-  	font-weight:bold;
-  	font-size: 15px;
-  	color:black;
-  	text-align:left;
+  	.v-label-Ipv41 {
+  		font-weight:bold;
+  		font-size: 15px;
+  		color:black;
+  		text-align:left;
   }
-  .v-label-Ipv61 {
-  	font-weight:bold;
-  	font-size: 15px;
-  	color:black;
-  	text-align:left;
+  	.v-label-Ipv61 {
+  		font-weight:bold;
+  		font-size: 15px;
+  		color:black;
+  		text-align:left;
   }
 }
