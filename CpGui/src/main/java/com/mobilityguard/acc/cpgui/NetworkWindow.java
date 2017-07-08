@@ -33,14 +33,15 @@ public class NetworkWindow {
 
         layout.setSizeFull();
         nwWindow.setContent(layout);
-        nwWindow.center();
-        nwWindow.setHeight("90%");
+	    nwWindow.setPositionX(300);
+	    nwWindow.setPositionY(65);
+        nwWindow.setHeight("85%");
         nwWindow.setWidth("65%");
 
         final GridLayout grid = new GridLayout(7,30);
         grid.addStyleName("gridNetwork");
         grid.setWidth("500px");
-        grid.setHeight("300px");
+        grid.setHeight("200px");
 
         final Label ncTitle = new Label(NC_TITLE);
         ncTitle.setStyleName("ncTitle");
@@ -54,6 +55,7 @@ public class NetworkWindow {
         dns1.setStyleName("dns1");
         final Label dns2 = new Label(DNS2);
         dns2.setStyleName("dns2");
+
         grid.addComponent(ncTitle,0,1);
         grid.addComponent(hostName,1,2);
         grid.addComponent(domain,1,3);

@@ -41,7 +41,7 @@ public class CpMainGui extends UI {
     private final NetworkGui gridComponent = new NetworkGui();
     private GridLayout gridLayout = null;
     private VerticalLayout detailLayout = new VerticalLayout();
-    Window window = new Window();
+    private static Window window = new Window();
     private static final Logger logger = Logger.getLogger(CpMainGui.class);
 
     @Override
@@ -127,7 +127,10 @@ public class CpMainGui extends UI {
                 window = acWindow.createAccessGui();
                 addWindow(window);
             } else if (selected.contains(TLS_SERVER_SETTINGS)) {
-                Notification.show(SELECTED + selected.toString());
+                //Notification.show(SELECTED + selected.toString());
+            	final TlsWindow tlsWindow = new TlsWindow();
+            	window = tlsWindow.createTlsWindow();
+            	addWindow(window);
             } else if (selected.contains(SYSLOG)) {
                 Notification.show(SELECTED + selected.toString());
             } else if (selected.contains(REPORT_CONFIG)) {

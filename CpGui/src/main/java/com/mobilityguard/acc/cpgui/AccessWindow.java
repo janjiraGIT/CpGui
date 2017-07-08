@@ -18,18 +18,20 @@ public class AccessWindow {
      */
     public Window createAccessGui() {
         final Window acWindow = new Window("Access Window");
+        
         final VerticalLayout layoutAc = new VerticalLayout();
 
         layoutAc.setSizeFull();
         acWindow.setContent(layoutAc);
-        acWindow.center();
-        acWindow.setHeight("90%");
-        acWindow.setWidth("65%");
+        acWindow.setPositionX(300);
+	    acWindow.setPositionY(65);
+	    acWindow.setHeight("85%");
+	    acWindow.setWidth("65%");
 
         final GridLayout gd = new GridLayout(7,30);
         gd.addStyleName("gdAccessWindow");
         gd.setWidth("500px");
-        gd.setHeight("200px");
+        gd.setHeight("300px");
 
         final Label accessTitle = new Label(CONTROL_PANEL_ACCESS);
         accessTitle.addStyleName("accessTitle");
@@ -38,11 +40,9 @@ public class AccessWindow {
 
         gd.addComponent(accessTitle,0,1);
         gd.addComponent(ipTitle,0,2);
-        // create text fields
         int num = 0;
         for (num = 3 ; num < 12 ; num++ ) {
             final TextField tf = new TextField();
-            // add text field in grid colum:1, start row:3.
             gd.addComponent(tf,1,num);
         }
         final Label cAdminLb = new Label("Current admin user id:");
@@ -55,16 +55,7 @@ public class AccessWindow {
         final ButtonsFactory buttons = new ButtonsFactory();
         buttons.createChangeButton(gd);
 
-        layoutAc.addComponent(gd);
-
-       // VerticalLayout var = new VerticalLayout();
-       // var.addComponent(new Label("TEST"));
-       
-        
-        //layoutAc.addComponent(var);
-        
-
-        
+        layoutAc.addComponent(gd);        
         return acWindow;
     }
 }
