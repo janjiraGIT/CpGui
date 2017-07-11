@@ -36,12 +36,13 @@ public class NetworkWindow {
 	    nwWindow.setPositionX(300);
 	    nwWindow.setPositionY(65);
         nwWindow.setHeight("85%");
-        nwWindow.setWidth("65%");
+        nwWindow.setWidth("55%");
 
         final GridLayout grid = new GridLayout(7,30);
         grid.addStyleName("gridNetwork");
-        grid.setWidth("500px");
-        grid.setHeight("200px");
+        grid.space();
+        grid.setWidth("600px");
+        grid.setHeight("600px");
 
         final Label ncTitle = new Label(NC_TITLE);
         ncTitle.setStyleName("ncTitle");
@@ -164,8 +165,8 @@ public class NetworkWindow {
         final ButtonsFactory button = new ButtonsFactory();
         String save = "save";
         String cancel = "cancel";
-        int row = 4;
-        int col = 22;
+        int row = 2;
+        int col = 26;
         button.createSaveCancelButtons(grid,save,cancel,row, col);
         //createSaveCancelButtons(grid);
         layout.addComponent(grid);

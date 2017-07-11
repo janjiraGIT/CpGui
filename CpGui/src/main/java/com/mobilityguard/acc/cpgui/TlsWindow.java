@@ -9,7 +9,9 @@ import com.vaadin.ui.Component.Listener;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;
+import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.StartedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
@@ -17,7 +19,7 @@ import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class TlsWindow {
+public class TlsWindow implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
     Embedded files = new Embedded("Upload Image");
 	
 	public Window createTlsWindow(){
@@ -29,21 +31,25 @@ public class TlsWindow {
 	    tlsWindow.setPositionX(300);
 	    tlsWindow.setPositionY(65);
 	    tlsWindow.setHeight("85%");
-	    tlsWindow.setWidth("65%");
+	    tlsWindow.setWidth("55%");
 	    
 	    final GridLayout tlsGrid = new GridLayout(7,30);
 	    tlsGrid.addStyleName("tlsGrid");
-	    tlsGrid.setWidth("500px");
-	    tlsGrid.setHeight("200px");
+	    tlsGrid.setWidth("600px");
+	    tlsGrid.setHeight("600px");
 	    
 	    final Label tlsTitle = new Label("Current TLS Certificate:");
 	    tlsTitle.addStyleName("tlsTitle");
 	    final Label tlsText = new Label();
+	    tlsText.addStyleName("tlsText");
 	    final Label tlsText2 = new Label();
-	    tlsText.setWidth("100%");
-	    tlsText.setHeight("20%");
-	    tlsText.setValue("dkfjaöljdflöajlfjdlajsdfjkdjfaöffdlaöffffffffffffffffffffffffffffffffffffffffjjdfueurwehjhdsvhdsklavhkhdvnoruiperiklöjfuyrhjoijfkfjkjfkshföafjafaskfj");
-	    tlsText2.setValue("klkfj7840349820408320+81+2384021849075097501+731075+2751+275017510+750+23701+279203577+17+1984930714+0174+147");
+	    tlsText.addStyleName("tlsText2");
+	    tlsText.setWidth("80%");
+	    tlsText.setHeight("30%");
+	    tlsText2.setWidth("80%");
+	    tlsText2.setHeight("30%");
+	    tlsText.setValue(" text 1 .......");
+	    tlsText2.setValue("text 2 .......");
 	    
 	    tlsGrid.addComponent(tlsTitle,0,1);
 	    tlsGrid.addComponent(tlsText,0,2);
@@ -52,12 +58,19 @@ public class TlsWindow {
 	    final Upload upload = new Upload();
 	    upload.setImmediateMode(false);
 	    upload.setButtonCaption("Upload");
-	    tlsGrid.addComponent(upload,0,8);
+	    upload.setStyleName("upload");
+	    tlsGrid.addComponent(upload,0,15);
 	    
 	    
 	    files = new Embedded("Upload Image");
 	    files.setVisible(false);
 	    tlsGrid.addComponent(files);
+	    
+	    
+	    final TextField tlsTf = new TextField("Password:");
+	    tlsGrid.addComponent(tlsTf,0,18);
+	    
+	    
 
 	    tlsLayout.addComponent(tlsGrid);
 	   
@@ -87,6 +100,21 @@ public class TlsWindow {
 			files.setVisible(true);
 			files.setSource(new FileResource(file));			
 		}
+	}
+	@Override
+	public OutputStream receiveUpload(String filename, String mimeType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void uploadFailed(FailedEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void uploadSucceeded(SucceededEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

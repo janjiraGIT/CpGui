@@ -9,8 +9,6 @@ import com.vaadin.ui.Window;
 public class AccessWindow {
     private static final String IP_OF_ONE_GATE_SERVER = "Ip of OneGate Server:";
     private static final String CONTROL_PANEL_ACCESS = "Control panel access";
-    private static final String IP_OF_ONE_GATE_ACCESS = "IP of OneGate access :";
-    private static final String AC_TITLE = "Control Panel Access";
     int num = 0;
 
     /**
@@ -26,12 +24,12 @@ public class AccessWindow {
         acWindow.setPositionX(300);
 	    acWindow.setPositionY(65);
 	    acWindow.setHeight("85%");
-	    acWindow.setWidth("65%");
+	    acWindow.setWidth("55%");
 
         final GridLayout gd = new GridLayout(7,30);
         gd.addStyleName("gdAccessWindow");
-        gd.setWidth("500px");
-        gd.setHeight("300px");
+        gd.setWidth("600px");
+        gd.setHeight("600px");
 
         final Label accessTitle = new Label(CONTROL_PANEL_ACCESS);
         accessTitle.addStyleName("accessTitle");
