@@ -17,44 +17,42 @@ import java.io.OutputStream;
 
 
 
-public class TlsWindow {
+public class Maintenance {
     private Embedded files = new Embedded("Upload Image");
 
     /**
-     * @return TLS window.
+     * @return Maintenance window.
      */
-    public Window createTlsWindow() {
-        final Window tlsWindow = new Window("TLS Server Settings Window");
-        final VerticalLayout tlsLayout = new VerticalLayout();
-        tlsLayout.setSizeFull();
-        tlsWindow.setContent(tlsLayout);
-        tlsWindow.setPositionX(300);
-        tlsWindow.setPositionY(65);
-        tlsWindow.setHeight("50%");
-        tlsWindow.setWidth("30%");
-        final GridLayout tlsGrid = new GridLayout(7,30);
-        tlsGrid.addStyleName("tlsGrid");
-        tlsGrid.setWidth("400px");
-        tlsGrid.setHeight("400px");
-        final Label tlsTitle = new Label("Current TLS Certificate:");
-        tlsTitle.addStyleName("tlsTitle");
-        final Label tlsText = new Label();
-        tlsText.addStyleName("tlsText");
-        tlsText.setValue(" Please choose a backup file to upload.");
-        tlsGrid.addComponent(tlsTitle,0,1);
-        tlsGrid.addComponent(tlsText,0,2);
+    public Window createMaintenanceWindow() {
+        final Window mnWindow = new Window("Maintenance Window");
+        final VerticalLayout mnLayout = new VerticalLayout();
+        mnLayout.setSizeFull();
+        mnWindow.setContent(mnLayout);
+        mnWindow.setPositionX(300);
+        mnWindow.setPositionY(65);
+        mnWindow.setHeight("50%");
+        mnWindow.setWidth("30%");
+        final GridLayout mnGrid = new GridLayout(7,30);
+        mnGrid.addStyleName("mnGrid");
+        mnGrid.setWidth("400px");
+        mnGrid.setHeight("400px");
+        final Label mnTitle = new Label("Upgrade Software");
+        mnTitle.addStyleName("mnTitle");
+        final Label mnText = new Label();
+        mnText.addStyleName("mnText");
+        mnText.setValue("Please choose the software package file to upload.");
+        mnGrid.addComponent(mnTitle,0,1);
+        mnGrid.addComponent(mnText,0,2);
         final Upload upload = new Upload();
         upload.setImmediateMode(false);
         upload.setButtonCaption("Upload");
         upload.setStyleName("upload");
-        tlsGrid.addComponent(upload,0,4);
+        mnGrid.addComponent(upload,0,4);
         files = new Embedded("Upload Image");
         files.setVisible(false);
-        tlsGrid.addComponent(files);
-        final TextField tlsTf = new TextField("Password:");
-        tlsGrid.addComponent(tlsTf,0,6);
-        tlsLayout.addComponent(tlsGrid);
-        return tlsWindow;
+        mnGrid.addComponent(files);
+        mnLayout.addComponent(mnGrid);
+        return mnWindow;
     }
 
     public class ImageUploader implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
@@ -85,3 +83,4 @@ public class TlsWindow {
         }
     }
 }
+

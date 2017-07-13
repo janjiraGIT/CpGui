@@ -28,15 +28,15 @@ public class NetworkWindow {
      * return Network window.
      */
     public Window crateNetworkWindow() {
-        final Window nwWindow = new Window("Network Window");
+        final Window nwWindow = new Window("Network Setttings Window");
         final VerticalLayout layout = new VerticalLayout();
 
         layout.setSizeFull();
         nwWindow.setContent(layout);
-	    nwWindow.setPositionX(300);
-	    nwWindow.setPositionY(65);
-        nwWindow.setHeight("85%");
-        nwWindow.setWidth("55%");
+        nwWindow.setPositionX(300);
+        nwWindow.setPositionY(65);
+        nwWindow.setHeight("80%");
+        nwWindow.setWidth("45%");
 
         final GridLayout grid = new GridLayout(7,30);
         grid.addStyleName("gridNetwork");

@@ -12574,6 +12574,13 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: right;
 }
 
+.mytheme .v-label-mnTitle {
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+}
+
 .mytheme .v-label-ni01Title {
 	font-size: 16px;
 	font-weight: bold;

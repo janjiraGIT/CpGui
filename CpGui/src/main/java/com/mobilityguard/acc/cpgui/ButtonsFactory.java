@@ -14,8 +14,8 @@ public class ButtonsFactory {
     /**
      * create button for save and cancel.
      */
-    public void createSaveCancelButtons(final GridLayout grid, final String text1, 
-    									final String text2, final int row, final int col) {
+    public void createSaveCancelButtons(final GridLayout grid, final String text1,
+                                    final String text2, final int row, final int col) {
         final HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setStyleName("buttonBackground");
         final Button save = new Button(text1);
@@ -35,7 +35,7 @@ public class ButtonsFactory {
         final Button change = new Button("Change");
         change.setStyleName("changeButton");
         buttonLayout.addComponents(change);
-        grid.addComponent(buttonLayout,2,14);
+        grid.addComponent(buttonLayout,1,15);
         change.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {

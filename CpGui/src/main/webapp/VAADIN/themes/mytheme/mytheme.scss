@@ -28,6 +28,7 @@
 
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Example
+
 $v-font-size: 14px;
 
 $v-font-family:sans-serif;
@@ -42,7 +43,7 @@ $v-gradient: v-linear 50%;
 @import "../valo/valo.scss";
 
 @mixin mytheme {
-  @include valo;
+@include valo;
 	.v-button-saveButton {
 		@include valo-button-style($background-color: hsl(194, 100%, 40%));
 		color:white;
@@ -102,6 +103,12 @@ $v-gradient: v-linear 50%;
 		font-weight:bold;
 		color:black;
 		text-align:right;
+  }
+    .v-label-mnTitle {
+		font-size: 20px;
+  		font-weight:bold;
+  		color:black;
+  		text-align:center;
   }
     .v-label-ni01Title {
 	  	font-size: 16px;

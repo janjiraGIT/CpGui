@@ -27,7 +27,7 @@ import java.util.Set;
 
 @Theme("mytheme")
 public class CpMainGui extends UI {
-    private static final String MENU_LAYOUT = "menuLayout";
+	private static final String MENU_LAYOUT = "menuLayout";
     private static final String STATUS = "Status";
     private static final String ACTIVATE_CHANGES = "Activate Changes";
     private static final String MAINTENANCE = "Maintenance";
@@ -51,7 +51,7 @@ public class CpMainGui extends UI {
         rootLayout.addComponent(titleLayout);
         final HorizontalLayout menuLayout = addMenuBar();
         rootLayout.addComponent(menuLayout);
-        rootLayout.setExpandRatio(menuLayout, 1);
+        rootLayout.setExpandRatio(menuLayout,1);
 
         setFooter(rootLayout);
     }
@@ -101,9 +101,9 @@ public class CpMainGui extends UI {
         final ListSelect<String> selectMenu = new ListSelect<>();
         selectMenu.setStyleName("selectMenu");
         selectMenu.setItems(STATUS, network, access, tlss, syslog, reportconfig, maintain, activeex );
-        selectMenu.setHeight("100%");
-        selectMenu.setWidth("50%");
-
+        PhotoWindow photo = new PhotoWindow();
+        window = photo.createPhotoTheme();
+        addWindow(window);
         actionAfterSelectMenu(menuLayout, selectMenu);
 
         selectLayout.addComponent(selectMenu);
@@ -114,28 +114,38 @@ public class CpMainGui extends UI {
         selectMenu.addValueChangeListener(event -> {
             final Set<String> selected = event.getValue();
             if (selected.contains(STATUS)) {
+            	window.close();
                 Notification.show(SELECTED + selected.toString());
             } else if ( selected.contains(NETWORK)) {
+            	window.close();
                 final NetworkWindow nwWindow = new NetworkWindow();
                 window = nwWindow.crateNetworkWindow();
                 addWindow(window);
             } else if (selected.contains(ACCESS_CONFIG_FOR_CONTROL_PANEL)) {
-                final AccessWindow acWindow = new AccessWindow();
+            	window.close();
+            	final AccessWindow acWindow = new AccessWindow();
                 window = acWindow.createAccessGui();
                 addWindow(window);
             } else if (selected.contains(TLS_SERVER_SETTINGS)) {
+            	window.close();
             	final TlsWindow tlsWindow = new TlsWindow();
-            	window = tlsWindow.createTlsWindow();
-            	addWindow(window);
+                window = tlsWindow.createTlsWindow();
+                addWindow(window);
             } else if (selected.contains(SYSLOG)) {
+            	window.close();
             	final SyslogWindow sysWindow = new SyslogWindow();
-            	window = sysWindow.createSyslogGui();
-            	addWindow(window);
+                window = sysWindow.createSyslogGui();
+                addWindow(window);
             } else if (selected.contains(REPORT_CONFIG)) {
+            	window.close();
                 Notification.show(SELECTED + selected.toString());
             } else if (selected.contains(MAINTENANCE)) {
-                Notification.show(SELECTED + selected.toString());
+            	window.close();
+                final Maintenance mainteNance = new Maintenance();
+                window = mainteNance.createMaintenanceWindow();
+                addWindow(window);
             } else if (selected.contains(ACTIVATE_CHANGES)) {
+            	window.close();
                 Notification.show(SELECTED + selected.toString());
             }
         });
