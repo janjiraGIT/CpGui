@@ -22,8 +22,8 @@ public class SyslogWindow {
         sysWindow.setContent(layoutSys);
         sysWindow.setPositionX(300);
         sysWindow.setPositionY(65);
-        sysWindow.setHeight("65%");
-        sysWindow.setWidth("35%");
+        sysWindow.setHeight("75%");
+        sysWindow.setWidth("45%");
 
         final GridLayout gd = new GridLayout(7,30);
         gd.addStyleName("gdSysWindow");

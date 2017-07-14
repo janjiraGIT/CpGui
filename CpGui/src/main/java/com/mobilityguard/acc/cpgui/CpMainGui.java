@@ -7,12 +7,15 @@ import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.annotations.PropertyId;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.ClassResource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.Notification;
@@ -39,6 +42,7 @@ public class CpMainGui extends UI {
     private static final String NETWORK = "Network";
     private static final String SELECT_LAYOUT = "selectLayout";
     private static Window window = new Window();
+    private ImagesWindow image = new ImagesWindow();
     private static final Logger logger = Logger.getLogger(CpMainGui.class);
 
     @Override
@@ -52,7 +56,6 @@ public class CpMainGui extends UI {
         final HorizontalLayout menuLayout = addMenuBar();
         rootLayout.addComponent(menuLayout);
         rootLayout.setExpandRatio(menuLayout,1);
-
         setFooter(rootLayout);
     }
 
@@ -71,12 +74,12 @@ public class CpMainGui extends UI {
     private void setFooter(final VerticalLayout rootLayout) {
         final HorizontalLayout footerBackground = new HorizontalLayout();
         footerBackground.setWidth("100%");
-        final Label date = new Label("Mobilityguard AB");
-        date.setWidth("100%");
-        date.setStyleName("date");
-        footerBackground.addComponent(date);
+        final ImagesWindow imageWindow = new ImagesWindow();
+        final Image logoMobilityGuard = imageWindow.getLogoMobilityGuard();
+        logoMobilityGuard.setHeight("10%");
+        logoMobilityGuard.setWidth("10%");
+        footerBackground.addComponent(logoMobilityGuard);
         rootLayout.addComponent(footerBackground);
-        rootLayout.setComponentAlignment(footerBackground, Alignment.BOTTOM_CENTER);
     }
 
     private HorizontalLayout addMenuBar() {
@@ -101,8 +104,8 @@ public class CpMainGui extends UI {
         final ListSelect<String> selectMenu = new ListSelect<>();
         selectMenu.setStyleName("selectMenu");
         selectMenu.setItems(STATUS, network, access, tlss, syslog, reportconfig, maintain, activeex );
-        PhotoWindow photo = new PhotoWindow();
-        window = photo.createPhotoTheme();
+        final ImagesWindow image = new ImagesWindow();
+        window = image.createImageTheme();
         addWindow(window);
         actionAfterSelectMenu(menuLayout, selectMenu);
 
@@ -115,7 +118,8 @@ public class CpMainGui extends UI {
             final Set<String> selected = event.getValue();
             if (selected.contains(STATUS)) {
             	window.close();
-                Notification.show(SELECTED + selected.toString());
+                window = image.createImageTheme();
+                addWindow(window);
             } else if ( selected.contains(NETWORK)) {
             	window.close();
                 final NetworkWindow nwWindow = new NetworkWindow();
@@ -138,7 +142,8 @@ public class CpMainGui extends UI {
                 addWindow(window);
             } else if (selected.contains(REPORT_CONFIG)) {
             	window.close();
-                Notification.show(SELECTED + selected.toString());
+                window = image.createImageTheme();
+                addWindow(window);
             } else if (selected.contains(MAINTENANCE)) {
             	window.close();
                 final Maintenance mainteNance = new Maintenance();
@@ -146,7 +151,8 @@ public class CpMainGui extends UI {
                 addWindow(window);
             } else if (selected.contains(ACTIVATE_CHANGES)) {
             	window.close();
-                Notification.show(SELECTED + selected.toString());
+                window = image.createImageTheme();
+                addWindow(window);
             }
         });
 

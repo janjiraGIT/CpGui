@@ -22,8 +22,8 @@ public class AccessWindow {
         acWindow.setContent(layoutAc);
         acWindow.setPositionX(300);
         acWindow.setPositionY(65);
-        acWindow.setHeight("75%");
-        acWindow.setWidth("35%");
+        acWindow.setHeight("85%");
+        acWindow.setWidth("45%");
 
         final GridLayout gd = new GridLayout(7,30);
         gd.addStyleName("gdAccessWindow");

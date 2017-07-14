@@ -33,6 +33,7 @@ $v-font-size: 14px;
 
 $v-font-family:sans-serif;
 
+/* background set blue color*/
 $v-background-color: hsl(194, 100%, 95%);
 
 $v-focus-color: #007599 ;
@@ -44,6 +45,9 @@ $v-gradient: v-linear 50%;
 
 @mixin mytheme {
 @include valo;
+	.v-panel .v-panel-content-desktop {
+    	background: url(photo.png);
+	}
 	.v-button-saveButton {
 		@include valo-button-style($background-color: hsl(194, 100%, 40%));
 		color:white;
