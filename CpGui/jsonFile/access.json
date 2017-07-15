@@ -1,0 +1,14 @@
+{
+  "Control Panel Access": {
+    "Ip" : {
+        "ip1" : "192.168.1.1 ",
+        "ip2" : "192.168.1.2",
+        "ip3" : "192.168.1.3"
+    },
+    "Admin" : {
+      "Userid" : "Anders",
+      "Password" : "Losen123",
+      "Password again" : "Losen123"     
+    }
+  }
+}

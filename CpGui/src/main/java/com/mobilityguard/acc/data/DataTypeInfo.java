@@ -46,8 +46,26 @@ public class DataTypeInfo {
         return NETWORK;
     }
 
-    public String getAccess() {
-        return ACCESS;
+//    public String getAccess() {
+//        return ACCESS;
+//    }
+    /**
+     * @return JsonObject.
+     */
+    public JSONObject getAccess() {
+        final JsonController jsoncontroller = new JsonController();
+        // only for test load Json data to Textfields.
+        try {
+            jsonObj = jsoncontroller.loadJsonData();
+            if (jsonObj.isEmpty()) {
+                logger.info("Json Object is empty!");
+            }
+        } catch (IOException e) {
+            logger.error("IOException" + e.getStackTrace());
+        } catch (ParseException e) {
+            logger.error("ParseException" + e.getStackTrace());
+        }
+        return jsonObj;
     }
 
     public String getTlss() {

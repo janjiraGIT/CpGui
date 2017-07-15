@@ -24,12 +24,14 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 
 import java.util.Set;
 
 
 @Theme("mytheme")
 public class CpMainGui extends UI {
+	private static final String ACCESS = "Access Config for Control Panel";
 	private static final String MENU_LAYOUT = "menuLayout";
     private static final String STATUS = "Status";
     private static final String ACTIVATE_CHANGES = "Activate Changes";
@@ -38,11 +40,13 @@ public class CpMainGui extends UI {
     private static final String SYSLOG = "Syslog";
     private static final String SELECTED = "Selected : ";
     private static final String TLS_SERVER_SETTINGS = "TLS Server settings";
-    private static final String ACCESS_CONFIG_FOR_CONTROL_PANEL = "Access Config for Control Panel";
+    private static final String ACCESS_CONFIG_FOR_CONTROL_PANEL = ACCESS;
     private static final String NETWORK = "Network";
     private static final String SELECT_LAYOUT = "selectLayout";
     private static Window window = new Window();
     private ImagesWindow image = new ImagesWindow();
+    private DataTypeInfo dataTypeInfo = new DataTypeInfo();
+    private JSONObject access = null;
     private static final Logger logger = Logger.getLogger(CpMainGui.class);
 
     @Override
@@ -92,18 +96,17 @@ public class CpMainGui extends UI {
         selectLayout.setWidth("80%");
         selectLayout.setHeight("100%");
 
-        final DataTypeInfo dataTypeInfo = new DataTypeInfo();
         final String network = dataTypeInfo.getNetwork();
-        final String access = dataTypeInfo.getAccess();
+        //final String access = dataTypeInfo.getAccess();
+        access = dataTypeInfo.getAccess();
         final String tlss = dataTypeInfo.getTlss();
         final String syslog = dataTypeInfo.getSyslog();
         final String reportconfig = dataTypeInfo.getReportConfig();
         final String maintain = dataTypeInfo.getMaintain();
         final String activeex = dataTypeInfo.getActiveEx();
-
         final ListSelect<String> selectMenu = new ListSelect<>();
         selectMenu.setStyleName("selectMenu");
-        selectMenu.setItems(STATUS, network, access, tlss, syslog, reportconfig, maintain, activeex );
+        selectMenu.setItems(STATUS, network, ACCESS, tlss, syslog, reportconfig, maintain, activeex );
         final ImagesWindow image = new ImagesWindow();
         window = image.createImageTheme();
         addWindow(window);
@@ -128,7 +131,7 @@ public class CpMainGui extends UI {
             } else if (selected.contains(ACCESS_CONFIG_FOR_CONTROL_PANEL)) {
             	window.close();
             	final AccessWindow acWindow = new AccessWindow();
-                window = acWindow.createAccessGui();
+                window = acWindow.createAccessGui(access);
                 addWindow(window);
             } else if (selected.contains(TLS_SERVER_SETTINGS)) {
             	window.close();
