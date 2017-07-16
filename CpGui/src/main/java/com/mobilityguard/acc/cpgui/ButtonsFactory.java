@@ -14,15 +14,15 @@ public class ButtonsFactory {
     /**
      * create button for save and cancel.
      */
-    public void createSaveCancelButtons(final GridLayout grid, final String text1,
-                                    final String text2, final int row, final int col) {
+    public void createSaveCancelButtons(final GridLayout grid, final String okSave,
+                                    final String cancel, final int row, final int col) {
         final HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setStyleName("buttonBackground");
-        final Button save = new Button(text1);
+        final Button save = new Button(okSave);
         save.setStyleName("saveButton");
-        final Button cancel = new Button(text2);
-        cancel.setStyleName("cancelButton");
-        buttonLayout.addComponents(save,cancel);
+        final Button cancelButton = new Button(cancel);
+        cancelButton.setStyleName("cancelButton");
+        buttonLayout.addComponents(save,cancelButton);
         buttonLayout.setSpacing(true);
         grid.addComponent(buttonLayout,row,col);
     }
@@ -41,11 +41,11 @@ public class ButtonsFactory {
             public void buttonClick(final ClickEvent event) {
                 final UserChangWindow ucw = new UserChangWindow();
                 ucw.changeUser(grid);
-                String text1 = "ok";
-                String text2 = "cancel";
+                String ok = "ok";
+                String cancel = "cancel";
                 final int col = 3;
                 final int row = 20;
-                createSaveCancelButtons(grid,text1,text2,col,row );
+                createSaveCancelButtons(grid,ok,cancel,col,row );
             }
         });
     }

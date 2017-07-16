@@ -33,5 +33,16 @@ public class UserChangWindow {
         grid.addComponent(tfUser,1,16);
         grid.addComponent(tfPass,1,17);
         grid.addComponent(tfPassAgain,1,18);
+        
+        tfUser.addValueChangeListener(event -> {
+        	String userTf = event.getValue();
+        });
+        tfPass.addValueChangeListener(event -> {
+        	String passTf = event.getValue();
+        });
+        tfPassAgain.addValueChangeListener(event -> {
+        	String passAgainTf = event.getValue();
+        });
+        
     }
 }
