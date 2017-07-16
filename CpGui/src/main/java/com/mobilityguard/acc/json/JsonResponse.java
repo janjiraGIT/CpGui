@@ -10,11 +10,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class JsonResponse {
-	public static final String URL = "./jsonFile/access.json";
 	private static Reader reader = null;
 	private static JSONObject jsonObject = null;
 	final static Logger logger = Logger.getLogger(JsonResponse.class);
-	public JSONObject readJsonFile() throws IOException, ParseException{
+
+	public JSONObject readJsonFile(final String URL) throws IOException, ParseException{
 		try {
 			reader = new FileReader(URL);
 		}catch(IOException e){

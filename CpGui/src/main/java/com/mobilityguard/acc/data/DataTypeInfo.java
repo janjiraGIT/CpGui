@@ -31,9 +31,6 @@ public class DataTypeInfo {
             if (jsonObj.isEmpty()) {
                 logger.info("Json Object is empty!");
             }
-            logger.info("This is for test on console :" + jsonObj);
-            String text1 = (String) jsonObj.get("text1");
-            logger.info("Json Object output : " + text1);
         } catch (IOException e) {
             logger.error("IOException" + e.getStackTrace());
         } catch (ParseException e) {
@@ -46,9 +43,6 @@ public class DataTypeInfo {
         return NETWORK;
     }
 
-//    public String getAccess() {
-//        return ACCESS;
-//    }
     /**
      * @return JsonObject.
      */
@@ -86,5 +80,23 @@ public class DataTypeInfo {
 
     public String getActiveEx() {
         return ACTIVATEEX;
+    }
+    /**
+     * @return JsonObject.
+     */
+    public JSONObject getAdmins() {
+        final JsonController jsoncontroller = new JsonController();
+        // only for test load Json data to Textfields.
+        try {
+            jsonObj = jsoncontroller.loadJsonAdmin();
+            if (jsonObj.isEmpty()) {
+                logger.info("Json Object is empty!");
+            }
+        } catch (IOException e) {
+            logger.error("IOException" + e.getStackTrace());
+        } catch (ParseException e) {
+            logger.error("ParseException" + e.getStackTrace());
+        }
+        return jsonObj;
     }
 }
