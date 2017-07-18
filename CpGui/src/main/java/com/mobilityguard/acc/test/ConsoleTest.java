@@ -1,6 +1,5 @@
 package com.mobilityguard.acc.test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.mobilityguard.acc.data.DataTypeInfo;
-import com.mobilityguard.acc.objects.Network;
 
 public class ConsoleTest {
     static final Logger logger = Logger.getLogger(ConsoleTest.class);
@@ -17,6 +15,15 @@ public class ConsoleTest {
 
 
 	public static void main(String[] args) {
+		//checkJsonObj();
+		buildJson();
+	}
+
+
+	/**
+	 * 
+	 *///
+	private static void checkJsonObj() {
 		//https://www.mkyong.com/java/json-simple-example-read-and-write-json/
 		DataTypeInfo data = new DataTypeInfo();
 		jsonObj = data.getAdmins();
@@ -38,5 +45,33 @@ public class ConsoleTest {
 						System.out.println("Found it!  " + "user : " + searchKey + "password : " + password );
 			}
 		}
+	}
+	@SuppressWarnings("unchecked")
+	private static void buildJson() {
+		JSONObject ca = new JSONObject();		
+		JSONArray ipArray = new JSONArray();
+		JSONObject ip1 = new JSONObject();		
+		ip1.put("ip1","192.168.1.1");
+		JSONObject ip2 = new JSONObject();
+		ip2.put("ip2","192.168.1.2");
+		JSONObject ip3 = new JSONObject();
+		ip3.put("ip3","192.168.1.3");
+	
+		ipArray.add(ip1);
+		ipArray.add(ip2);
+		ipArray.add(ip3);
+
+		JSONArray adminArray = new JSONArray();
+		JSONObject user = new JSONObject();
+		JSONObject pass = new JSONObject();
+		user.put("userid", "Anders");
+		user.put("password", "Losen123");
+		adminArray.add(user);
+		adminArray.add(pass);
+		ca.put("Control Panel Access", ipArray);
+		ca.put("Admin", adminArray);
+		
+		System.out.println(ca);
+		
 	}
 }

@@ -30,6 +30,12 @@ public class AccessWindow {
     private static JSONObject jsonObj = null;
     private TextField cAdminTf ;
     private Map<String, String> itemMap = new HashMap<String,String>();
+    private TextField tf1 = new TextField();
+    private TextField tf2 = new TextField();
+    private TextField tf3 = new TextField();
+    private TextField tf4 = new TextField();
+    private TextField tf5 = new TextField();
+    private TextField tf6 = new TextField();
 
     /**
      * create Access gui and return grid layout.
@@ -38,10 +44,13 @@ public class AccessWindow {
         final Window acWindow = new Window("Access Window");
         final VerticalLayout layoutAc = new VerticalLayout();
         JSONObject cpaObj = (JSONObject) jsonObj.get("Control Panel Access");
-        JSONObject IpObj = (JSONObject) cpaObj.get("Ip");
-        String Ip1 = (String) IpObj.get("ip1");
-        String Ip2 = (String) IpObj.get("ip2");
-        String Ip3 = (String) IpObj.get("ip3");
+        
+        JSONArray IpObj = (JSONArray) cpaObj.get("Ip");
+        JSONObject Ip1 = (JSONObject) IpObj.get(0);
+        String ip1 = (String) Ip1.get("ip1");
+        String ip2 = (String) Ip1.get("ip2");
+        String ip3 = (String) Ip1.get("ip3");
+        System.out.println(Ip1);
 
         layoutAc.setSizeFull();
         acWindow.setContent(layoutAc);
@@ -66,16 +75,9 @@ public class AccessWindow {
         gd.addComponent(ipTitle,0,2);
         gd.addComponent(example,0,3);
 
-        final TextField tf1 = new TextField();
-        final TextField tf2 = new TextField();
-        final TextField tf3 = new TextField();
-        final TextField tf4 = new TextField();
-        final TextField tf5 = new TextField();
-        final TextField tf6 = new TextField();
-
-        tf1.setValue(Ip1);
-        tf2.setValue(Ip2);
-        tf3.setValue(Ip3);
+        tf1.setValue(ip1.toString());
+        tf2.setValue(ip2.toString());
+        tf3.setValue(ip3.toString());
  
         gd.addComponent(tf1,1,4);
         gd.addComponent(tf2,1,5);
@@ -173,6 +175,10 @@ public class AccessWindow {
         buttonLayout.setSpacing(true);
         grid.addComponent(buttonLayout,3,20);    
     }
+
+    /**
+     * 
+     */
     public void checkAuthentication(final String userTf , final String passTf ){
     	final DataTypeInfo data = new DataTypeInfo();
     	jsonObj = data.getAdmins();
@@ -181,18 +187,57 @@ public class AccessWindow {
 	    		final JSONObject obj = (JSONObject) adminObj.get(i);
 	    		final String objUser = (String) obj.get("userid");
 	    		final String objPassword = (String) obj.get("password");
-	    			itemMap.put(objUser,objPassword);
+	    		itemMap.put(objUser,objPassword);
 	    	}
 	    System.out.println("Item in map :" + itemMap.toString());
 	    if (itemMap.containsKey(userTf)) {
 	    	 final String password = itemMap.get(userTf);
 	    	 if (passTf.equals(password)){
 	    		 Notification.show("Admin User has changs to " + userTf);
-	    	       cAdminTf.setValue(userTf);
-	    	       cAdminTf.setEnabled(false);
+	    	     cAdminTf.setValue(userTf);
+	    	     cAdminTf.setEnabled(false);
+	    	     // send all ip , userid 
+	    	     buildJson(tf1,tf2,tf3,userTf); 
 	    	 }else if(passTf != password) {
 	    		 Notification.show("Wrong password : please try agin.");
 	    	 }
 	    }
     }
+    @SuppressWarnings("unchecked")
+	private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf){
+    	String tfA = tf1.getValue();
+    	String tfB = tf1.getValue();
+    	String tfC = tf1.getValue();
+		JSONObject ca = new JSONObject();
+		
+		JSONArray ipArray = new JSONArray();
+
+		ipArray.add("Ip");
+		ca.put("Control Panel Access", ipArray);
+		//ca.put("Ip", ip)
+		
+		JSONObject ip1 = new JSONObject();		
+		ip1.put("ip1",tfA.toString());
+		JSONObject ip2 = new JSONObject();
+		ip2.put("ip2",tfB.toString());
+		JSONObject ip3 = new JSONObject();
+		ip3.put("ip3",tfC.toString());
+		
+		ipArray.add(ip1);
+		ipArray.add(ip2);
+		ipArray.add(ip3);
+		
+		JSONArray adminArray = new JSONArray();
+		JSONObject user = new JSONObject();
+		JSONObject pass = new JSONObject();
+		user.put("userid", userTf);
+		user.put("password", "Losen123");
+		adminArray.add(user);
+		adminArray.add(pass);
+		ca.put("Admin", adminArray);
+		
+		System.out.println(ca.toString());
+		
+	}
+    
 }
