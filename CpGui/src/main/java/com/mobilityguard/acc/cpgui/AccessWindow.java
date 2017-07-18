@@ -113,7 +113,6 @@ public class AccessWindow {
      * @param grid.
      */
     private void changeUser(final GridLayout grid) {
-        //final Window userWindow = new Window("Change admin credentials");
         final VerticalLayout layoutUser = new VerticalLayout();
         layoutUser.setSizeFull();
         final Label adUser = new Label(ADMIN_USER);
@@ -152,12 +151,12 @@ public class AccessWindow {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (userTf == null || passTf == null || passAgainTf == null) {
-					Notification.show("Input error: Admin user and/or Admin password missing.");
+					Notification.show("Input error: Admin user and/or Admin password missing.");				
 				}else if (passTf.equals(passAgainTf)) {
 					checkAuthentication(userTf,passTf);	
 				}else if (passTf != passAgainTf){
 					Notification.show("Non matching passwords: You need to enter same password.");	
-				}//TODO : in case password is both wrong. "Wrong passwords"
+				}
 			}
 		});
         final Button cancelButton = new Button("cancel");
@@ -192,7 +191,7 @@ public class AccessWindow {
 	    	       cAdminTf.setValue(userTf);
 	    	       cAdminTf.setEnabled(false);
 	    	 }else if(passTf != password) {
-	 			System.out.println("Password is not correct " + userTf + "  " + password);	
+	    		 Notification.show("Wrong password : please try agin.");
 	    	 }
 	    }
     }
