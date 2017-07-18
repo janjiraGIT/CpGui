@@ -1,11 +1,18 @@
 package com.mobilityguard.acc.cpgui;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -17,7 +24,12 @@ public class AccessWindow {
     private static final String ADMIN_PASSWORD_AGAIN = "Admin password again:";
     private static final String ADMIN_PASSWORD = "Admin password : ";
     private static final String ADMIN_USER = "Admin User : ";
-    int num = 0;
+	private String userTf = null ;
+	private String passTf = null ;
+	private String passAgainTf = null ;
+    private static JSONObject jsonObj = null;
+    private TextField cAdminTf ;
+    private Map<String, String> itemMap = new HashMap<String,String>();
 
     /**
      * create Access gui and return grid layout.
@@ -74,12 +86,11 @@ public class AccessWindow {
    
         final Label cAdminLb = new Label("Current admin user id:");
         cAdminLb.setStyleName("cAdminLb");
-        final TextField cAdminTf = new TextField();
+        cAdminTf = new TextField();
         cAdminTf.setValue("Anders Vidal");
         cAdminTf.setEnabled(false);
         gd.addComponent(cAdminLb,0,14);
         gd.addComponent(cAdminTf,1,14);
-        //final ButtonsFactory buttons = new ButtonsFactory();
         createChangeButton(gd);
         layoutAc.addComponent(gd);
         return acWindow;
@@ -94,31 +105,9 @@ public class AccessWindow {
         change.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-                //final UserChangWindow ucw = new UserChangWindow();
-                //ucw.changeUser(grid);
                 changeUser(grid);
-                String ok = "ok";
-                String cancel = "cancel";
-                final int col = 3;
-                final int row = 20;
-                createSaveCancelButtons(grid,ok,cancel,col,row );
             }
         });
-    }
-    /**
-     * create button for save and cancel.
-     */
-    private void createSaveCancelButtons(final GridLayout grid, final String okSave,
-                                    final String cancel, final int row, final int col) {
-        final HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.setStyleName("buttonBackground");
-        final Button save = new Button(okSave);
-        save.setStyleName("saveButton");
-        final Button cancelButton = new Button(cancel);
-        cancelButton.setStyleName("cancelButton");
-        buttonLayout.addComponents(save,cancelButton);
-        buttonLayout.setSpacing(true);
-        grid.addComponent(buttonLayout,row,col);
     }
     /**
      * @param grid.
@@ -134,25 +123,77 @@ public class AccessWindow {
         final Label adPassAgain = new Label(ADMIN_PASSWORD_AGAIN);
         adPassAgain.setStyleName("adPassAgain");
         final TextField tfUser = new TextField();
-        final TextField tfPass = new TextField();
-        final TextField tfPassAgain = new TextField();
-
+        final PasswordField tfPass = new PasswordField();
+        final PasswordField tfPassAgain = new PasswordField();
         grid.addComponent(adUser,0,16);
         grid.addComponent(adPass,0,17);
         grid.addComponent(adPassAgain,0,18);
         grid.addComponent(tfUser,1,16);
         grid.addComponent(tfPass,1,17);
-        grid.addComponent(tfPassAgain,1,18);
-        
+        grid.addComponent(tfPassAgain,1,18);  
         tfUser.addValueChangeListener(event -> {
-        	String userTf = event.getValue();
+        	userTf = event.getValue();
+        	System.out.println(userTf);
         });
         tfPass.addValueChangeListener(event -> {
-        	String passTf = event.getValue();
+        	passTf = event.getValue();
+        	System.out.println(passTf);
         });
         tfPassAgain.addValueChangeListener(event -> {
-        	String passAgainTf = event.getValue();
+        	passAgainTf = event.getValue();
+        	System.out.println(passAgainTf);
         });
         
+        final HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setStyleName("buttonBackground");
+        final Button saveButton = new Button("ok");
+        saveButton.setStyleName("saveButton");
+        saveButton.addClickListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				if (userTf == null || passTf == null || passAgainTf == null) {
+					Notification.show("Input error: Admin user and/or Admin password missing.");
+				}else if (passTf.equals(passAgainTf)) {
+					checkAuthentication(userTf,passTf);	
+				}else if (passTf != passAgainTf){
+					Notification.show("Non matching passwords: You need to enter same password.");	
+				}//TODO : in case password is both wrong. "Wrong passwords"
+			}
+		});
+        final Button cancelButton = new Button("cancel");
+        cancelButton.setStyleName("cancelButton");
+        cancelButton.addClickListener(new Button.ClickListener() {	
+			@Override
+			public void buttonClick(ClickEvent event) {
+				tfUser.clear();;
+				tfPass.clear();;
+				tfPassAgain.clear();
+			}
+		});
+        buttonLayout.addComponents(saveButton,cancelButton);
+        buttonLayout.setSpacing(true);
+        grid.addComponent(buttonLayout,3,20);    
+    }
+    public void checkAuthentication(final String userTf , final String passTf ){
+    	final DataTypeInfo data = new DataTypeInfo();
+    	jsonObj = data.getAdmins();
+    	final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
+	    	for (int i=0;i<adminObj.size();i++) {
+	    		final JSONObject obj = (JSONObject) adminObj.get(i);
+	    		final String objUser = (String) obj.get("userid");
+	    		final String objPassword = (String) obj.get("password");
+	    			itemMap.put(objUser,objPassword);
+	    	}
+	    System.out.println("Item in map :" + itemMap.toString());
+	    if (itemMap.containsKey(userTf)) {
+	    	 final String password = itemMap.get(userTf);
+	    	 if (passTf.equals(password)){
+	    		 Notification.show("Admin User has changs to " + userTf);
+	    	       cAdminTf.setValue(userTf);
+	    	       cAdminTf.setEnabled(false);
+	    	 }else if(passTf != password) {
+	 			System.out.println("Password is not correct " + userTf + "  " + password);	
+	    	 }
+	    }
     }
 }

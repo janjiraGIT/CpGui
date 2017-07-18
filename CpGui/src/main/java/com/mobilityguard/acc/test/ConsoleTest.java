@@ -29,11 +29,14 @@ public class ConsoleTest {
 				Map<String, String> itemMap = new HashMap<String,String>();
 					itemMap.put(objUser,objPassword);
 					System.out.println(itemMap);
-					String searchKey = "janjira";
+					String searchKey = "janjira"; // userTf
+					//itemMap.containsKey(searchKey);
+					//itemMap.get(searchKey);
 					if (itemMap.containsKey(searchKey)) {
-						System.out.println("Found it!  " + itemMap.get(searchKey) );
-					}
+						String password = itemMap.get(searchKey);
+						
+						System.out.println("Found it!  " + "user : " + searchKey + "password : " + password );
+			}
 		}
-
 	}
 }
