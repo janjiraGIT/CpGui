@@ -27,7 +27,7 @@ public class DataTypeInfo {
         final JsonController jsoncontroller = new JsonController();
         // only for test load Json data to Textfields.
         try {
-            jsonObj = jsoncontroller.loadJsonData();
+            jsonObj = jsoncontroller.loadJsonAccess();
             if (jsonObj.isEmpty()) {
                 logger.info("Json Object is empty!");
             }
@@ -44,13 +44,13 @@ public class DataTypeInfo {
     }
 
     /**
-     * @return JsonObject.
+     * @return JsonObject of Access.
      */
     public JSONObject getAccess() {
         final JsonController jsoncontroller = new JsonController();
         // only for test load Json data to Textfields.
         try {
-            jsonObj = jsoncontroller.loadJsonData();
+            jsonObj = jsoncontroller.loadJsonAccess();
             if (jsonObj.isEmpty()) {
                 logger.info("Json Object is empty!");
             }
@@ -66,8 +66,19 @@ public class DataTypeInfo {
         return TLSS;
     }
 
-    public String getSyslog() {
-        return SYSLOG;
+    public JSONObject getSyslog() {
+        final JsonController jsoncontroller = new JsonController();
+        try {
+            jsonObj = jsoncontroller.loadJsonSyslog();
+            if (jsonObj.isEmpty()) {
+                logger.info("Json Object is empty!");
+            }
+        } catch (IOException e) {
+            logger.error("IOException" + e.getStackTrace());
+        } catch (ParseException e) {
+            logger.error("ParseException" + e.getStackTrace());
+        }
+        return jsonObj;
     }
 
     public String getReportConfig() {

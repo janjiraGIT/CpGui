@@ -47,6 +47,7 @@ public class CpMainGui extends UI {
     private ImagesWindow image = new ImagesWindow();
     private DataTypeInfo dataTypeInfo = new DataTypeInfo();
     private JSONObject access = null;
+    private JSONObject syslog = null;
     private static final Logger logger = Logger.getLogger(CpMainGui.class);
 
     @Override
@@ -100,13 +101,13 @@ public class CpMainGui extends UI {
         //final String access = dataTypeInfo.getAccess();
         access = dataTypeInfo.getAccess();
         final String tlss = dataTypeInfo.getTlss();
-        final String syslog = dataTypeInfo.getSyslog();
+        syslog = dataTypeInfo.getSyslog();
         final String reportconfig = dataTypeInfo.getReportConfig();
         final String maintain = dataTypeInfo.getMaintain();
         final String activeex = dataTypeInfo.getActiveEx();
         final ListSelect<String> selectMenu = new ListSelect<>();
         selectMenu.setStyleName("selectMenu");
-        selectMenu.setItems(STATUS, network, ACCESS, tlss, syslog, reportconfig, maintain, activeex );
+        selectMenu.setItems(STATUS, network, ACCESS, tlss, SYSLOG, reportconfig, maintain, activeex );
         final ImagesWindow image = new ImagesWindow();
         window = image.createImageTheme();
         addWindow(window);
@@ -141,7 +142,7 @@ public class CpMainGui extends UI {
             } else if (selected.contains(SYSLOG)) {
             	window.close();
             	final SyslogWindow sysWindow = new SyslogWindow();
-                window = sysWindow.createSyslogGui();
+                window = sysWindow.createSyslogGui(syslog);
                 addWindow(window);
             } else if (selected.contains(REPORT_CONFIG)) {
             	window.close();

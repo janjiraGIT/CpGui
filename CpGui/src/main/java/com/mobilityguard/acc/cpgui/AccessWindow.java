@@ -53,11 +53,11 @@ public class AccessWindow {
     public Window createAccessGui(final JSONObject jsonObj) {
         final Window acWindow = new Window("Access Window");
         final VerticalLayout layoutAc = new VerticalLayout();
-        JSONObject cpaObj = (JSONObject) jsonObj.get("Control Panel Access");
-        JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
+        final JSONObject cpaObj = (JSONObject) jsonObj.get("Control Panel Access");
+        final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
         
-        JSONArray IpObj = (JSONArray) cpaObj.get("Ip");
-        JSONObject Ip1 = (JSONObject) IpObj.get(0);
+        final JSONArray IpObj = (JSONArray) cpaObj.get("Ip");
+        final JSONObject Ip1 = (JSONObject) IpObj.get(0);
         for (int i = 0; i< adminObj.size(); i++ ){   
         	JSONObject obj = (JSONObject) adminObj.get(i);
         	if (obj.get("userid")!=null){

@@ -9,7 +9,7 @@ public class test {
 	public static void main(String[] args) {
     	JsonController jsoncontroller = new JsonController();
     	try {
-			final JSONObject jsonObj = jsoncontroller.loadJsonData();
+			final JSONObject jsonObj = jsoncontroller.loadJsonAccess();
 			if (jsonObj.isEmpty()) {
 				System.out.println("Json Object is empty");			
 			}

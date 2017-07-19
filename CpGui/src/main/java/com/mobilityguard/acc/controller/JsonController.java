@@ -9,12 +9,14 @@ import java.io.IOException;
 
 
 public class JsonController {
-	private static final String ACCESS = "./jsonFile/test.json";
+	private static final String ACCESS = "./jsonFile/access.json";
+	private static final String SYSLOG = "./jsonFile/syslog.json";
 	private static final String ADMIN = "./jsonFile/admin.json";
+
     /**
      * load info av Access.
      */
-    public JSONObject loadJsonData() throws IOException, ParseException {
+    public JSONObject loadJsonAccess() throws IOException, ParseException {
         final JsonResponse jsonResponse = new JsonResponse();
         final JSONObject jsonObj = jsonResponse.readJsonFile(ACCESS);
         return jsonObj;
@@ -26,6 +28,14 @@ public class JsonController {
         final JsonResponse jsonResponse = new JsonResponse();
         final JSONObject jsonObj = jsonResponse.readJsonFile(ADMIN);
         
+        return jsonObj;
+    }
+    /**
+     * load info av Syslog.
+     */
+    public JSONObject loadJsonSyslog() throws IOException, ParseException {
+        final JsonResponse jsonResponse = new JsonResponse();
+        final JSONObject jsonObj = jsonResponse.readJsonFile(SYSLOG);
         return jsonObj;
     }
 }
