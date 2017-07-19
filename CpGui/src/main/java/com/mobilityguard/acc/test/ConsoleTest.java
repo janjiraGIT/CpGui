@@ -48,7 +48,10 @@ public class ConsoleTest {
 	}
 	@SuppressWarnings("unchecked")
 	private static void buildJson() {
-		JSONObject ca = new JSONObject();		
+	
+		JSONObject ca = new JSONObject();	
+		JSONObject IpObj = new JSONObject();
+		ca.put("Control Panel Access", IpObj);
 		JSONArray ipArray = new JSONArray();
 		JSONObject ip1 = new JSONObject();		
 		ip1.put("ip1","192.168.1.1");
@@ -56,10 +59,10 @@ public class ConsoleTest {
 		ip2.put("ip2","192.168.1.2");
 		JSONObject ip3 = new JSONObject();
 		ip3.put("ip3","192.168.1.3");
-	
 		ipArray.add(ip1);
 		ipArray.add(ip2);
 		ipArray.add(ip3);
+		IpObj.put("Ip", ipArray);
 
 		JSONArray adminArray = new JSONArray();
 		JSONObject user = new JSONObject();
@@ -68,9 +71,7 @@ public class ConsoleTest {
 		user.put("password", "Losen123");
 		adminArray.add(user);
 		adminArray.add(pass);
-		ca.put("Control Panel Access", ipArray);
 		ca.put("Admin", adminArray);
-		
 		System.out.println(ca);
 		
 	}

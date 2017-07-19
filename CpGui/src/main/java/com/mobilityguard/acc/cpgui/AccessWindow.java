@@ -208,24 +208,21 @@ public class AccessWindow {
     	String tfA = tf1.getValue();
     	String tfB = tf1.getValue();
     	String tfC = tf1.getValue();
+    	
 		JSONObject ca = new JSONObject();
-		
+		JSONObject IpObj = new JSONObject();	
+		ca.put("Control Panel Access", IpObj);
 		JSONArray ipArray = new JSONArray();
-
-		ipArray.add("Ip");
-		ca.put("Control Panel Access", ipArray);
-		//ca.put("Ip", ip)
-		
-		JSONObject ip1 = new JSONObject();		
-		ip1.put("ip1",tfA.toString());
+		JSONObject ip1 = new JSONObject();	
 		JSONObject ip2 = new JSONObject();
-		ip2.put("ip2",tfB.toString());
 		JSONObject ip3 = new JSONObject();
-		ip3.put("ip3",tfC.toString());
-		
+		ip1.put("ip1",tfA.toString());
+		ip2.put("ip2",tfB.toString());
+		ip3.put("ip3",tfC.toString());	
 		ipArray.add(ip1);
 		ipArray.add(ip2);
 		ipArray.add(ip3);
+		IpObj.put("Ip", ipArray);
 		
 		JSONArray adminArray = new JSONArray();
 		JSONObject user = new JSONObject();
@@ -235,7 +232,6 @@ public class AccessWindow {
 		adminArray.add(user);
 		adminArray.add(pass);
 		ca.put("Admin", adminArray);
-		
 		System.out.println(ca.toString());
 		
 	}
