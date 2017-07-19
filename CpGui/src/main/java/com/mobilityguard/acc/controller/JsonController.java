@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 public class JsonController {
-	private static final String ACCESS = "./jsonFile/access.json";
+	private static final String ACCESS = "./jsonFile/test.json";
 	private static final String ADMIN = "./jsonFile/admin.json";
     /**
      * load info av Access.

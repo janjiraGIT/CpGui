@@ -1,5 +1,7 @@
 package com.mobilityguard.acc.cpgui;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,14 @@ public class AccessWindow {
     private TextField tf4 = new TextField();
     private TextField tf5 = new TextField();
     private TextField tf6 = new TextField();
+    private TextField tfUser = null;
+    private PasswordField tfPass = null;
+    private PasswordField tfPassAgain = null;
+    private String ip1 = null;
+    private String ip2 = null;
+    private String ip3 = null;
+    private String userStr = null;
+	private FileWriter file;
 
     /**
      * create Access gui and return grid layout.
@@ -44,14 +54,44 @@ public class AccessWindow {
         final Window acWindow = new Window("Access Window");
         final VerticalLayout layoutAc = new VerticalLayout();
         JSONObject cpaObj = (JSONObject) jsonObj.get("Control Panel Access");
+        JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
         
         JSONArray IpObj = (JSONArray) cpaObj.get("Ip");
         JSONObject Ip1 = (JSONObject) IpObj.get(0);
-        String ip1 = (String) Ip1.get("ip1");
-        String ip2 = (String) Ip1.get("ip2");
-        String ip3 = (String) Ip1.get("ip3");
-        System.out.println(Ip1);
-
+        for (int i = 0; i< adminObj.size(); i++ ){   
+        	JSONObject obj = (JSONObject) adminObj.get(i);
+        	if (obj.get("userid")!=null){
+        		userStr = (String) obj.get("userid");
+        	}
+        	else {
+        		System.out.println("Fel");
+        	}
+        }
+        if  (Ip1.get("ip1") == null || Ip1.get("ip2") == null || Ip1.get("ip3") == null)  {
+        	ip1 = "null";
+        	ip2 = "null";
+        	ip3 = "null";
+        }if (Ip1.get("ip1")!=null){
+        	ip1 = (String) Ip1.get("ip1"); 
+            tf1.setValue(ip1.toString());
+            tf1.setEnabled(false);
+            System.out.println("IP1" + ip1);
+        }if (Ip1.get("ip2")!=null){
+        	ip2 = (String) Ip1.get("ip2"); 
+        	tf2.setValue(ip2.toString());
+        	tf2.setEnabled(false);
+        	System.out.println(" IP2" + ip2);
+        }if (Ip1.get("ip3")!=null){
+        	ip3 = (String) Ip1.get("ip3"); 
+        	tf3.setValue(ip3.toString());
+        	tf3.setEnabled(false);
+        	System.out.println(" IP3" + ip3);
+        }	
+        	tf4.setEnabled(false);
+        	tf5.setEnabled(false);
+        	tf6.setEnabled(false);
+            System.out.println("Here :" + Ip1 );
+            System.out.println(" ip1 : " + ip1 + "ip2 : " + ip2 + "ip3 : " + ip3 );
         layoutAc.setSizeFull();
         acWindow.setContent(layoutAc);
         acWindow.setPositionX(300);
@@ -74,11 +114,6 @@ public class AccessWindow {
         gd.addComponent(accessTitle,0,1);
         gd.addComponent(ipTitle,0,2);
         gd.addComponent(example,0,3);
-
-        tf1.setValue(ip1.toString());
-        tf2.setValue(ip2.toString());
-        tf3.setValue(ip3.toString());
- 
         gd.addComponent(tf1,1,4);
         gd.addComponent(tf2,1,5);
         gd.addComponent(tf3,1,6);
@@ -89,14 +124,15 @@ public class AccessWindow {
         final Label cAdminLb = new Label("Current admin user id:");
         cAdminLb.setStyleName("cAdminLb");
         cAdminTf = new TextField();
-        cAdminTf.setValue("Anders Vidal");
+        cAdminTf.setValue(userStr);
         cAdminTf.setEnabled(false);
         gd.addComponent(cAdminLb,0,14);
         gd.addComponent(cAdminTf,1,14);
         createChangeButton(gd);
         layoutAc.addComponent(gd);
-        return acWindow;
-    }
+        
+		return acWindow;
+}
     
     private void createChangeButton(final GridLayout grid) {
         final VerticalLayout buttonLayout = new VerticalLayout();
@@ -107,7 +143,14 @@ public class AccessWindow {
         change.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
+                tf1.setEnabled(true);
+                tf2.setEnabled(true);
+                tf3.setEnabled(true);
+                tf4.setEnabled(true);
+                tf5.setEnabled(true);
+                tf6.setEnabled(true);
                 changeUser(grid);
+
             }
         });
     }
@@ -123,9 +166,9 @@ public class AccessWindow {
         adPass.setStyleName("adPass");
         final Label adPassAgain = new Label(ADMIN_PASSWORD_AGAIN);
         adPassAgain.setStyleName("adPassAgain");
-        final TextField tfUser = new TextField();
-        final PasswordField tfPass = new PasswordField();
-        final PasswordField tfPassAgain = new PasswordField();
+        tfUser = new TextField();
+        tfPass = new PasswordField();
+        tfPassAgain = new PasswordField();
         grid.addComponent(adUser,0,16);
         grid.addComponent(adPass,0,17);
         grid.addComponent(adPassAgain,0,18);
@@ -158,6 +201,8 @@ public class AccessWindow {
 					checkAuthentication(userTf,passTf);	
 				}else if (passTf != passAgainTf){
 					Notification.show("Non matching passwords: You need to enter same password.");	
+				}else {
+					Notification.show("Input error: Admin user and/or Admin password wrong.");
 				}
 			}
 		});
@@ -169,6 +214,12 @@ public class AccessWindow {
 				tfUser.clear();;
 				tfPass.clear();;
 				tfPassAgain.clear();
+                tf1.setEnabled(true);
+                tf2.setEnabled(true);
+                tf3.setEnabled(true);
+                tf4.setEnabled(true);
+                tf5.setEnabled(true);
+                tf6.setEnabled(true);
 			}
 		});
         buttonLayout.addComponents(saveButton,cancelButton);
@@ -196,7 +247,16 @@ public class AccessWindow {
 	    		 Notification.show("Admin User has changs to " + userTf);
 	    	     cAdminTf.setValue(userTf);
 	    	     cAdminTf.setEnabled(false);
-	    	     // send all ip , userid 
+	                tf1.setEnabled(false);
+	                tf2.setEnabled(false);
+	                tf3.setEnabled(false);
+	                tf4.setEnabled(false);
+	                tf5.setEnabled(false);
+	                tf6.setEnabled(false);
+	                tfUser.setEnabled(false);
+	                tfPass.setEnabled(false);
+	                tfPassAgain.setEnabled(false);
+	                
 	    	     buildJson(tf1,tf2,tf3,userTf); 
 	    	 }else if(passTf != password) {
 	    		 Notification.show("Wrong password : please try agin.");
@@ -206,34 +266,33 @@ public class AccessWindow {
     @SuppressWarnings("unchecked")
 	private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf){
     	String tfA = tf1.getValue();
-    	String tfB = tf1.getValue();
-    	String tfC = tf1.getValue();
-    	
+    	String tfB = tf2.getValue();
+    	String tfC = tf3.getValue(); 	
 		JSONObject ca = new JSONObject();
 		JSONObject IpObj = new JSONObject();	
 		ca.put("Control Panel Access", IpObj);
 		JSONArray ipArray = new JSONArray();
-		JSONObject ip1 = new JSONObject();	
-		JSONObject ip2 = new JSONObject();
-		JSONObject ip3 = new JSONObject();
-		ip1.put("ip1",tfA.toString());
-		ip2.put("ip2",tfB.toString());
-		ip3.put("ip3",tfC.toString());	
-		ipArray.add(ip1);
-		ipArray.add(ip2);
-		ipArray.add(ip3);
+		JSONObject supIp = new JSONObject();	
+		supIp.put("ip1",tfA.toString());
+		supIp.put("ip2",tfB.toString());
+		supIp.put("ip3",tfC.toString());	
+		ipArray.add(supIp);
 		IpObj.put("Ip", ipArray);
 		
 		JSONArray adminArray = new JSONArray();
 		JSONObject user = new JSONObject();
-		JSONObject pass = new JSONObject();
 		user.put("userid", userTf);
-		user.put("password", "Losen123");
 		adminArray.add(user);
-		adminArray.add(pass);
 		ca.put("Admin", adminArray);
-		System.out.println(ca.toString());
+		System.out.println(ca.toString());	
+		String FILE = "./jsonFile/test.json";
+		try {
+			file = new FileWriter(FILE);
+			file.write(ca.toString());
+			file.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
-    
 }

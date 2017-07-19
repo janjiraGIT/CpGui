@@ -53,24 +53,24 @@ public class ConsoleTest {
 		JSONObject IpObj = new JSONObject();
 		ca.put("Control Panel Access", IpObj);
 		JSONArray ipArray = new JSONArray();
-		JSONObject ip1 = new JSONObject();		
+		JSONObject ip1 = new JSONObject();	
+//		JSONObject ip2 = new JSONObject();
+//		JSONObject ip3 = new JSONObject();
 		ip1.put("ip1","192.168.1.1");
-		JSONObject ip2 = new JSONObject();
-		ip2.put("ip2","192.168.1.2");
-		JSONObject ip3 = new JSONObject();
-		ip3.put("ip3","192.168.1.3");
+		ip1.put("ip2","192.168.1.2");
+		ip1.put("ip3","192.168.1.3");
 		ipArray.add(ip1);
-		ipArray.add(ip2);
-		ipArray.add(ip3);
+//		ipArray.add(ip2);
+//		ipArray.add(ip3);
 		IpObj.put("Ip", ipArray);
 
 		JSONArray adminArray = new JSONArray();
 		JSONObject user = new JSONObject();
-		JSONObject pass = new JSONObject();
+		//JSONObject pass = new JSONObject();
 		user.put("userid", "Anders");
 		user.put("password", "Losen123");
 		adminArray.add(user);
-		adminArray.add(pass);
+		//adminArray.add(pass);
 		ca.put("Admin", adminArray);
 		System.out.println(ca);
 		
