@@ -1,5 +1,6 @@
 package com.mobilityguard.acc.data;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;

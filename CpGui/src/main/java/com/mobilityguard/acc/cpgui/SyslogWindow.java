@@ -1,15 +1,15 @@
 package com.mobilityguard.acc.cpgui;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
+import com.mobilityguard.acc.controller.JsonController;
 import com.mobilityguard.acc.data.DataTypeInfo;
-import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -25,8 +25,6 @@ public class SyslogWindow {
     private static final String SYS_SETTING = "Syslog Settings";
     int num = 0;
 	int count = 0;
-    private String ip = null;
-    private TextField tf = new TextField();
     private TextField tf1 = new TextField();
     private TextField tf2 = new TextField();
     private TextField tf3 = new TextField();
@@ -39,22 +37,18 @@ public class SyslogWindow {
     private ArrayList<TextField> listTf = new ArrayList<TextField>();
     private ArrayList<String> listSyslog= null;
 	private ArrayList<String> ipNotInList = new ArrayList<String>(); 
-    String tfA ;
-    String tfB ;
-    String tfC ;
-    String tfD ;
-    String tfE ;
-	private FileWriter file;
+    private String tfA ;
+    private String tfB ;
+    private String tfC ;
+    private String tfD ;
 
     /**
      * create Access gui and return grid layout.
      */
     public Window createSyslogGui(final JSONObject syslog) {
         final Window sysWindow = new Window("Syslog Settings Window");
-        final VerticalLayout layoutSys = new VerticalLayout();
-        
+        final VerticalLayout layoutSys = new VerticalLayout();        
         listSyslog = getSyslog(syslog);
-
         layoutSys.setSizeFull();
         sysWindow.setContent(layoutSys);
         sysWindow.setPositionX(300);
@@ -74,13 +68,6 @@ public class SyslogWindow {
         final Label example = new Label("Example: 192.168.1.1 or 192.168.1.0/24");
         example.addStyleName("example");
 
-        //TEST :
-        // Check size of Syslog data and crate textfield 
-//        for(int i = 0 ; i < listSyslog.size(); i++){
-//        	listTf.add(tf); // textfield crate same size of syslog data // not work vaadin not allow user same tf.
-//
-//        }
-//   	System.out.println(listTf.toString());
         listTf.add(tf1);
         listTf.add(tf2);
         listTf.add(tf3);
@@ -101,14 +88,6 @@ public class SyslogWindow {
         gd.addComponent(tf6,1,9);
         gd.addComponent(tf7,1,10);
         gd.addComponent(tf8,1,11);    
-       // for(int i = 0 ; i < listTf.size(); i++){
-//        	for (int row = 4 ; row < 12; row++){
-//        		gd.addComponent(tf1);
-        		//gd.addComponent(listTf.get(i),1,row);
-//        		if (listSyslog.get(i) != null){
-//        			listTf.get(i).setValue(listSyslog.get(i));
-//        		}
-//        }
         
         if (listSyslog.get(0)!=null){
             tf1.setValue(listSyslog.get(0));
@@ -127,6 +106,7 @@ public class SyslogWindow {
         buttonLayout.setStyleName("buttonBackground");
         final Button save = new Button("save");
         save.setStyleName("saveButton");
+		final Button cancelButton = new Button("cancel");
         final DataTypeInfo data = new DataTypeInfo();
         // get list of ip address.
         IpObj = data.getIP();
@@ -141,7 +121,42 @@ public class SyslogWindow {
         	arrayListIp.add(objIp);
         }
     	System.out.println("ArrayListIp " + arrayListIp); 
-        save.addClickListener(new Button.ClickListener() {
+        clickCancel(cancelButton);
+        clickSave(save, arrayListIp);
+        buttonLayout.addComponents(save,cancelButton);
+        buttonLayout.setSpacing(true);
+        gd.addComponent(buttonLayout,2,21);
+        layoutSys.addComponent(gd);
+        return sysWindow;
+    }
+
+	/**
+	 * @return
+	 */
+	private Button clickCancel(final Button cancelButton) {
+        cancelButton.setStyleName("cancelButton");
+        cancelButton.addClickListener(new Button.ClickListener() {	
+			@Override
+			public void buttonClick(ClickEvent event) {
+				tf1.clear();
+				tf2.clear();
+				tf3.clear();
+				tf4.clear();
+				tf5.clear();
+				tf6.clear();
+				tf7.clear();
+				tf8.clear();			
+			}
+		});
+		return cancelButton;
+	}
+
+	/**
+	 * @param save
+	 * @param arrayListIp
+	 */
+	private void clickSave(final Button save, final ArrayList<String> arrayListIp) {
+		save.addClickListener(new Button.ClickListener() {
 			
 			@SuppressWarnings("unchecked")
 			@Override
@@ -169,38 +184,24 @@ public class SyslogWindow {
 		    			ipNotInList.add(tfK);
 		    		} 
 		         }
-				Notification.show("Save new list in the ip file");
-				
 		        final JSONObject obj = new JSONObject();
 		        final JSONArray array = new JSONArray();
-		        array.add(tfA);
-		        array.add(tfB);
-		        array.add(tfC);
-		        array.add(tfD);
-		        obj.put("Syslog", array);
-		        String FILE = "./jsonFile/syslog.json";
+						        array.add(tfA);
+						        array.add(tfB);
+						        array.add(tfC);
+						        array.add(tfD);
+						        obj.put("Syslog", array);
+				final JsonController controller = new JsonController();
 				try {
-					file = new FileWriter(FILE);
-					file.write(obj.toString());
-					file.flush();
-				} catch (IOException e) {
+					final JSONObject writeJsonInAccessFile = controller.writeJsonInSyslogFile(obj);
+					writeJsonInAccessFile.toString();
+					Notification.show("Save new list in the ip file" + writeJsonInAccessFile.toString());
+				} catch (IOException | ParseException e) {
 					e.printStackTrace();
 				}
-		        
-		        
-
-				
 			}
 		});
-  
-        final Button cancelButton = new Button("cancel");
-        cancelButton.setStyleName("cancelButton");
-        buttonLayout.addComponents(save,cancelButton);
-        buttonLayout.setSpacing(true);
-        gd.addComponent(buttonLayout,2,21);
-        layoutSys.addComponent(gd);
-        return sysWindow;
-    }
+	}
 
 	/**
 	 * @param syslog

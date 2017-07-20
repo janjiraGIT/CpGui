@@ -1,6 +1,7 @@
 package com.mobilityguard.acc.json;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -13,6 +14,7 @@ public class JsonResponse {
 	private static Reader reader = null;
 	private static JSONObject jsonObject = null;
 	final static Logger logger = Logger.getLogger(JsonResponse.class);
+	private static FileWriter file = null;
 
 	public JSONObject readJsonFile(final String URL) throws IOException, ParseException{
 		try {
@@ -23,6 +25,17 @@ public class JsonResponse {
 		final JSONParser jsonParser = new JSONParser();
 		jsonObject = (JSONObject) jsonParser.parse(reader);	
 		return jsonObject;
-	}
+	}	
 	
-}
+	public JSONObject writeJsonFile(final String FILE_ADDRESS, final JSONObject obj){
+		try {
+			file = new FileWriter(FILE_ADDRESS);
+			file.write(obj.toString());
+			file.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+			return obj;	
+	}
+}	
+

@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
+import com.mobilityguard.acc.controller.JsonController;
 import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -198,7 +200,11 @@ public class AccessWindow {
 				if (userTf == null || passTf == null || passAgainTf == null) {
 					Notification.show("Input error: Admin user and/or Admin password missing.");				
 				}else if (passTf.equals(passAgainTf)) {
-					checkAuthentication(userTf,passTf);	
+					try {
+						checkAuthentication(userTf,passTf);
+					} catch (IOException | ParseException e) {
+						e.printStackTrace();
+					}	
 				}else if (passTf != passAgainTf){
 					Notification.show("Non matching passwords: You need to enter same password.");	
 				}else {
@@ -228,9 +234,11 @@ public class AccessWindow {
     }
 
     /**
+     * @throws ParseException 
+     * @throws IOException 
      * 
      */
-    public void checkAuthentication(final String userTf , final String passTf ){
+    public void checkAuthentication(final String userTf , final String passTf ) throws IOException, ParseException{
     	final DataTypeInfo data = new DataTypeInfo();
     	jsonObj = data.getAdmins();
     	final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
@@ -264,35 +272,26 @@ public class AccessWindow {
 	    }
     }
     @SuppressWarnings("unchecked")
-	private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf){
-    	String tfA = tf1.getValue();
-    	String tfB = tf2.getValue();
-    	String tfC = tf3.getValue(); 	
-		JSONObject ca = new JSONObject();
-		JSONObject IpObj = new JSONObject();	
+	private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf) throws IOException, ParseException{
+    	final String tfA = tf1.getValue();
+    	final String tfB = tf2.getValue();
+    	final String tfC = tf3.getValue(); 
+		final JSONObject ca = new JSONObject();
+		final JSONObject IpObj = new JSONObject();	
 		ca.put("Control Panel Access", IpObj);
-		JSONArray ipArray = new JSONArray();
-		JSONObject supIp = new JSONObject();	
+		final JSONArray ipArray = new JSONArray();
+		final JSONObject supIp = new JSONObject();	
 		supIp.put("ip1",tfA.toString());
 		supIp.put("ip2",tfB.toString());
 		supIp.put("ip3",tfC.toString());	
 		ipArray.add(supIp);
 		IpObj.put("Ip", ipArray);
-		
-		JSONArray adminArray = new JSONArray();
-		JSONObject user = new JSONObject();
+		final JSONArray adminArray = new JSONArray();
+		final JSONObject user = new JSONObject();
 		user.put("userid", userTf);
 		adminArray.add(user);
-		ca.put("Admin", adminArray);
-		System.out.println(ca.toString());	
-		String FILE = "./jsonFile/access.json";
-		try {
-			file = new FileWriter(FILE);
-			file.write(ca.toString());
-			file.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		ca.put("Admin", adminArray);		
+		JsonController controller = new JsonController();
+		controller.writeJsonInAccessFile(ca);		
 	}
 }

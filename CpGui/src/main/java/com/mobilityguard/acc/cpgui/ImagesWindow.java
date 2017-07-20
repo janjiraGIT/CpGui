@@ -25,7 +25,7 @@ public class ImagesWindow {
         nwWindow.setWidth("77%");      
         final Panel panel = new Panel();
         layout.addComponent(panel);
-		resource = new ThemeResource("photo.png");
+		resource = new ThemeResource("ocean.jpg");
 		image = new Image("Image",resource);
 		image.setSizeFull();
 		panel.setContent(image);
