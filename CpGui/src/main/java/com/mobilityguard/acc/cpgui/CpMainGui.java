@@ -14,6 +14,8 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.GridLayout.OutOfBoundsException;
+import com.vaadin.ui.GridLayout.OverlapsException;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -25,7 +27,9 @@ import com.vaadin.ui.Window;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.Set;
 
 
@@ -98,7 +102,6 @@ public class CpMainGui extends UI {
         selectLayout.setHeight("100%");
 
         final String network = dataTypeInfo.getNetwork();
-        //final String access = dataTypeInfo.getAccess();
         access = dataTypeInfo.getAccess();
         final String tlss = dataTypeInfo.getTlss();
         syslog = dataTypeInfo.getSyslog();
@@ -142,7 +145,7 @@ public class CpMainGui extends UI {
             } else if (selected.contains(SYSLOG)) {
             	window.close();
             	final SyslogWindow sysWindow = new SyslogWindow();
-                window = sysWindow.createSyslogGui(syslog);
+				window = sysWindow.createSyslogGui(syslog);
                 addWindow(window);
             } else if (selected.contains(REPORT_CONFIG)) {
             	window.close();

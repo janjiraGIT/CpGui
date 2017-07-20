@@ -80,6 +80,20 @@ public class DataTypeInfo {
         }
         return jsonObj;
     }
+    public JSONObject getIP() {
+        final JsonController jsoncontroller = new JsonController();
+        try {
+            jsonObj = jsoncontroller.loadIpInof();
+            if (jsonObj.isEmpty()) {
+                logger.info("Json Object is empty!");
+            }
+        } catch (IOException e) {
+            logger.error("IOException" + e.getStackTrace());
+        } catch (ParseException e) {
+            logger.error("ParseException" + e.getStackTrace());
+        }
+        return jsonObj;
+    }
 
     public String getReportConfig() {
         return REPORTCONFIG;

@@ -285,7 +285,7 @@ public class AccessWindow {
 		adminArray.add(user);
 		ca.put("Admin", adminArray);
 		System.out.println(ca.toString());	
-		String FILE = "./jsonFile/test.json";
+		String FILE = "./jsonFile/access.json";
 		try {
 			file = new FileWriter(FILE);
 			file.write(ca.toString());
