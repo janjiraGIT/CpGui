@@ -3,6 +3,8 @@ package com.mobilityguard.acc.cpgui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,6 +13,7 @@ import org.json.simple.parser.ParseException;
 import com.mobilityguard.acc.controller.JsonController;
 import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -33,6 +36,8 @@ public class SyslogWindow {
     private TextField tf6 = new TextField();
     private TextField tf7 = new TextField();
     private TextField tf8 = new TextField();
+   
+    
     private JSONObject IpObj = null;
     private ArrayList<TextField> listTf = new ArrayList<TextField>();
     private ArrayList<String> listSyslog= null;
@@ -67,7 +72,15 @@ public class SyslogWindow {
         allowTitle.addStyleName("allowTitle");
         final Label example = new Label("Example: 192.168.1.1 or 192.168.1.0/24");
         example.addStyleName("example");
-
+        
+        TextField tfTest = new TextField();
+        List<TextField> tfList = new LinkedList<>();
+        
+        for (int i = 5 ; i < 10 ; i++){
+            tfList.add(tfTest);	
+            gd.addComponent(new TextField(""),1,i);
+        }
+        
         listTf.add(tf1);
         listTf.add(tf2);
         listTf.add(tf3);
@@ -80,14 +93,14 @@ public class SyslogWindow {
         gd.addComponent(sysTitle,0,1);
         gd.addComponent(allowTitle,0,2);
         gd.addComponent(example,0,3);
-        gd.addComponent(tf1,1,4);
-        gd.addComponent(tf2,1,5);
-        gd.addComponent(tf3,1,6);
-        gd.addComponent(tf4,1,7);
-        gd.addComponent(tf5,1,8);
-        gd.addComponent(tf6,1,9);
-        gd.addComponent(tf7,1,10);
-        gd.addComponent(tf8,1,11);    
+//        gd.addComponent(tf1,1,4);
+//        gd.addComponent(tf2,1,5);
+//        gd.addComponent(tf3,1,6);
+//        gd.addComponent(tf4,1,7);
+//        gd.addComponent(tf5,1,8);
+//        gd.addComponent(tf6,1,9);
+//        gd.addComponent(tf7,1,10);
+//        gd.addComponent(tf8,1,11);    
         
         if (listSyslog.get(0)!=null){
             tf1.setValue(listSyslog.get(0));

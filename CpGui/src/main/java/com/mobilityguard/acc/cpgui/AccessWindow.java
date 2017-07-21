@@ -34,6 +34,7 @@ public class AccessWindow {
     private static JSONObject jsonObj = null;
     private TextField cAdminTf ;
     private Map<String, String> itemMap = new HashMap<String,String>();
+    private Button change;
     private TextField tf1 = new TextField();
     private TextField tf2 = new TextField();
     private TextField tf3 = new TextField();
@@ -138,7 +139,7 @@ public class AccessWindow {
     
     private void createChangeButton(final GridLayout grid) {
         final VerticalLayout buttonLayout = new VerticalLayout();
-        final Button change = new Button("Change");
+        change = new Button("Change");
         change.setStyleName("changeButton");
         buttonLayout.addComponents(change);
         grid.addComponent(buttonLayout,1,15);
@@ -217,15 +218,20 @@ public class AccessWindow {
         cancelButton.addClickListener(new Button.ClickListener() {	
 			@Override
 			public void buttonClick(ClickEvent event) {
-				tfUser.clear();;
-				tfPass.clear();;
+				tfUser.clear();
+				tfPass.clear();
 				tfPassAgain.clear();
+				tfUser.setEnabled(true);
+				tfPass.setEnabled(true);
+				tfPassAgain.setEnabled(true);
                 tf1.setEnabled(true);
                 tf2.setEnabled(true);
                 tf3.setEnabled(true);
                 tf4.setEnabled(true);
                 tf5.setEnabled(true);
                 tf6.setEnabled(true);
+                change.setEnabled(false);
+               
 			}
 		});
         buttonLayout.addComponents(saveButton,cancelButton);
