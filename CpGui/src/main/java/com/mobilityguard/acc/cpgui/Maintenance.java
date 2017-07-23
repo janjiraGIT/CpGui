@@ -43,10 +43,13 @@ public class Maintenance {
         mnText.setValue("Please choose the software package file to upload.");
         mnGrid.addComponent(mnTitle,0,1);
         mnGrid.addComponent(mnText,0,2);
-        final Upload upload = new Upload();
+        ImageUploader receiver = new ImageUploader();
+        final Upload upload = new Upload("upload here ", receiver);
         upload.setImmediateMode(false);
-        upload.setButtonCaption("Upload");
+        upload.setButtonCaption("Start Upload");
         upload.setStyleName("upload");
+        upload.addSucceededListener(receiver);
+
         mnGrid.addComponent(upload,0,4);
         files = new Embedded("Upload Image");
         files.setVisible(false);
@@ -54,33 +57,36 @@ public class Maintenance {
         mnLayout.addComponent(mnGrid);
         return mnWindow;
     }
+		class ImageUploader implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
+    	        private static final long serialVersionUID = -1276759102490466761L;
+    	        public File file;
 
-    public class ImageUploader implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
-        private static final long serialVersionUID = -1276759102490466761L;
-        public File file;
+    	        @Override
+    	        public OutputStream receiveUpload(final String filename, final String mimeType) {
+    	            FileOutputStream fos = null;
+    	            try {
+    	                file = new File("/Users/janjiraeriksson/code/git/CpGui/CpGui/jsonFile/" + filename);
+    	                fos = new FileOutputStream(file);
+    	            } catch (Exception e) {
+    	                System.out.println(e.getStackTrace());
+    	                return null;
+    	            }
+    	            return fos;
+    	        }
 
-        @Override
-        public OutputStream receiveUpload(final String filename, final String mimeType) {
-            FileOutputStream fos = null;
-            try {
-                file = new File("/Users/janjiraeriksson/code/git/CpGui/CpGui/jsonFile/" + filename);
-                fos = new FileOutputStream(file);
-            } catch (Exception e) {
-                System.out.println(e.getStackTrace());
-                return null;
-            }
-            return fos;
-        }
+    	        @Override
+    	        public void uploadSucceeded(final SucceededEvent event) {
+    	            files.setVisible(true);
+    	            files.setSource(new FileResource(file));
+    	        }
 
-        @Override
-        public void uploadSucceeded(final SucceededEvent event) {
-            files.setVisible(true);
-            files.setSource(new FileResource(file));
-        }
 
-        public void uploadFailed(final FailedEvent event) {
-            // TODO Auto-generated method stub
-        }
-    }
+    	        public void uploadFailed(final FailedEvent event) {
+    	            // TODO Auto-generated method stub
+    	        }
+    	    }
+    	   ImageUploader receiver = new ImageUploader();
+    	   
+    	   
 }
 
