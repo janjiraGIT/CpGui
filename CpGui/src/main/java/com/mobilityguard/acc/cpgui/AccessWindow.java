@@ -1,26 +1,29 @@
 package com.mobilityguard.acc.cpgui;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import com.mobilityguard.acc.controller.JsonController;
+import com.mobilityguard.acc.data.DataTypeInfo;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.mobilityguard.acc.controller.JsonController;
-import com.mobilityguard.acc.data.DataTypeInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccessWindow {
     private static final String IP_OF_ONE_GATE_SERVER = "Ip of OneGate Server:";
@@ -28,11 +31,11 @@ public class AccessWindow {
     private static final String ADMIN_PASSWORD_AGAIN = "Admin password again:";
     private static final String ADMIN_PASSWORD = "Admin password : ";
     private static final String ADMIN_USER = "Admin User : ";
-	private String userTf = null ;
-	private String passTf = null ;
-	private String passAgainTf = null ;
+    private String userTf = null;
+    private String passTf = null;
+    private String passAgainTf = null;
     private static JSONObject jsonObj = null;
-    private TextField cAdminTf ;
+    private TextField caAdminTf;
     private Map<String, String> itemMap = new HashMap<String,String>();
     private Button change;
     private TextField tf1 = new TextField();
@@ -48,59 +51,59 @@ public class AccessWindow {
     private String ip2 = null;
     private String ip3 = null;
     private String userStr = null;
-	private FileWriter file;
+    private static final Logger log = LoggerFactory.getLogger(AccessWindow.class);
 
     /**
      * create Access gui and return grid layout.
      */
     public Window createAccessGui(final JSONObject jsonObj) {
-        final Window acWindow = new Window("Access Window");
+        final Window acWindow = new Window();
         final VerticalLayout layoutAc = new VerticalLayout();
+        final Panel panel = new Panel("Access Window");
+        acWindow.setContent(panel);
+        panel.setContent(layoutAc);
         final JSONObject cpaObj = (JSONObject) jsonObj.get("Control Panel Access");
         final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
-        
         final JSONArray IpObj = (JSONArray) cpaObj.get("Ip");
         final JSONObject Ip1 = (JSONObject) IpObj.get(0);
-        for (int i = 0; i< adminObj.size(); i++ ){   
-        	JSONObject obj = (JSONObject) adminObj.get(i);
-        	if (obj.get("userid")!=null){
-        		userStr = (String) obj.get("userid");
-        	}
-        	else {
-        		System.out.println("Fel");
-        	}
+        for (int i = 0; i < adminObj.size(); i++ ) {
+            JSONObject obj = (JSONObject) adminObj.get(i);
+            if (obj.get("userid") != null) {
+                userStr = (String) obj.get("userid");
+            } else {
+                log.error("Fel : user id is null");
+            }
         }
         if  (Ip1.get("ip1") == null || Ip1.get("ip2") == null || Ip1.get("ip3") == null)  {
-        	ip1 = "null";
-        	ip2 = "null";
-        	ip3 = "null";
-        }if (Ip1.get("ip1")!=null){
-        	ip1 = (String) Ip1.get("ip1"); 
+            ip1 = "null";
+            ip2 = "null";
+            ip3 = "null";
+        }
+        if (Ip1.get("ip1") != null ) {
+            ip1 = (String) Ip1.get("ip1");
             tf1.setValue(ip1.toString());
             tf1.setEnabled(false);
-            System.out.println("IP1" + ip1);
-        }if (Ip1.get("ip2")!=null){
-        	ip2 = (String) Ip1.get("ip2"); 
-        	tf2.setValue(ip2.toString());
-        	tf2.setEnabled(false);
-        	System.out.println(" IP2" + ip2);
-        }if (Ip1.get("ip3")!=null){
-        	ip3 = (String) Ip1.get("ip3"); 
-        	tf3.setValue(ip3.toString());
-        	tf3.setEnabled(false);
-        	System.out.println(" IP3" + ip3);
-        }	
-        	tf4.setEnabled(false);
-        	tf5.setEnabled(false);
-        	tf6.setEnabled(false);
-            System.out.println("Here :" + Ip1 );
-            System.out.println(" ip1 : " + ip1 + "ip2 : " + ip2 + "ip3 : " + ip3 );
-        layoutAc.setSizeFull();
-        acWindow.setContent(layoutAc);
+            log.info("Ip1", ip1);
+        }
+        if (Ip1.get("ip2") != null ) {
+            ip2 = (String) Ip1.get("ip2");
+            tf2.setValue(ip2.toString());
+            tf2.setEnabled(false);
+            log.info("Ip2", ip2);
+        }
+        if (Ip1.get("ip3") != null) {
+            ip3 = (String) Ip1.get("ip3");
+            tf3.setValue(ip3.toString());
+            tf3.setEnabled(false);
+            log.info("Ip3", ip3);
+        }
+        tf4.setEnabled(false);
+        tf5.setEnabled(false);
+        tf6.setEnabled(false);
         acWindow.setPositionX(300);
         acWindow.setPositionY(65);
-        acWindow.setHeight("85%");
-        acWindow.setWidth("45%");
+        acWindow.setHeight("66.5%");
+        acWindow.setWidth("32%");
 
         final GridLayout gd = new GridLayout(7,30);
         gd.addStyleName("gdAccessWindow");
@@ -123,20 +126,18 @@ public class AccessWindow {
         gd.addComponent(tf4,1,7);
         gd.addComponent(tf5,1,8);
         gd.addComponent(tf6,1,9);
-   
         final Label cAdminLb = new Label("Current admin user id:");
         cAdminLb.setStyleName("cAdminLb");
-        cAdminTf = new TextField();
-        cAdminTf.setValue(userStr);
-        cAdminTf.setEnabled(false);
+        caAdminTf = new TextField();
+        caAdminTf.setValue(userStr);
+        caAdminTf.setEnabled(false);
         gd.addComponent(cAdminLb,0,14);
-        gd.addComponent(cAdminTf,1,14);
+        gd.addComponent(caAdminTf,1,14);
         createChangeButton(gd);
         layoutAc.addComponent(gd);
-        
-		return acWindow;
-}
-    
+        return acWindow;
+    }
+
     private void createChangeButton(final GridLayout grid) {
         final VerticalLayout buttonLayout = new VerticalLayout();
         change = new Button("Change");
@@ -153,10 +154,10 @@ public class AccessWindow {
                 tf5.setEnabled(true);
                 tf6.setEnabled(true);
                 changeUser(grid);
-
             }
         });
     }
+
     /**
      * @param grid.
      */
@@ -177,53 +178,53 @@ public class AccessWindow {
         grid.addComponent(adPassAgain,0,18);
         grid.addComponent(tfUser,1,16);
         grid.addComponent(tfPass,1,17);
-        grid.addComponent(tfPassAgain,1,18);  
+        grid.addComponent(tfPassAgain,1,18);
         tfUser.addValueChangeListener(event -> {
-        	userTf = event.getValue();
-        	System.out.println(userTf);
+            userTf = event.getValue();
+            log.info(userTf);
         });
         tfPass.addValueChangeListener(event -> {
-        	passTf = event.getValue();
-        	System.out.println(passTf);
+            passTf = event.getValue();
+            log.info(passTf);
         });
         tfPassAgain.addValueChangeListener(event -> {
-        	passAgainTf = event.getValue();
-        	System.out.println(passAgainTf);
+            passAgainTf = event.getValue();
+            log.info(passAgainTf);
         });
-        
+
         final HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setStyleName("buttonBackground");
         final Button saveButton = new Button("ok");
         saveButton.setStyleName("saveButton");
         saveButton.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (userTf == null || passTf == null || passAgainTf == null) {
-					Notification.show("Input error: Admin user and/or Admin password missing.");				
-				}else if (passTf.equals(passAgainTf)) {
-					try {
-						checkAuthentication(userTf,passTf);
-					} catch (IOException | ParseException e) {
-						e.printStackTrace();
-					}	
-				}else if (passTf != passAgainTf){
-					Notification.show("Non matching passwords: You need to enter same password.");	
-				}else {
-					Notification.show("Input error: Admin user and/or Admin password wrong.");
-				}
-			}
-		});
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                if (userTf == null || passTf == null || passAgainTf == null) {
+                        Notification.show("Input error: Admin user and/or Admin password missing.");
+                } else if (passTf.equals(passAgainTf)) {
+                    try {
+                        checkAuthentication(userTf,passTf);
+                    } catch (IOException | ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else if (passTf != passAgainTf) {
+                    Notification.show("Non matching passwords: You need to enter same password.");
+                } else {
+                    Notification.show("Input error: Admin user and/or Admin password wrong.");
+                }
+            }
+        });
         final Button cancelButton = new Button("cancel");
         cancelButton.setStyleName("cancelButton");
-        cancelButton.addClickListener(new Button.ClickListener() {	
-			@Override
-			public void buttonClick(ClickEvent event) {
-				tfUser.clear();
-				tfPass.clear();
-				tfPassAgain.clear();
-				tfUser.setEnabled(true);
-				tfPass.setEnabled(true);
-				tfPassAgain.setEnabled(true);
+        cancelButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                tfUser.clear();
+                tfPass.clear();
+                tfPassAgain.clear();
+                tfUser.setEnabled(true);
+                tfPass.setEnabled(true);
+                tfPassAgain.setEnabled(true);
                 tf1.setEnabled(true);
                 tf2.setEnabled(true);
                 tf3.setEnabled(true);
@@ -231,73 +232,70 @@ public class AccessWindow {
                 tf5.setEnabled(true);
                 tf6.setEnabled(true);
                 change.setEnabled(false);
-               
-			}
-		});
+            }
+        });
         buttonLayout.addComponents(saveButton,cancelButton);
         buttonLayout.setSpacing(true);
-        grid.addComponent(buttonLayout,3,20);    
+        grid.addComponent(buttonLayout,3,20);
     }
 
     /**
-     * @throws ParseException 
-     * @throws IOException 
-     * 
+     * Check user and password.
      */
     public void checkAuthentication(final String userTf , final String passTf ) throws IOException, ParseException{
-    	final DataTypeInfo data = new DataTypeInfo();
-    	jsonObj = data.getAdmins();
-    	final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
-	    	for (int i=0;i<adminObj.size();i++) {
-	    		final JSONObject obj = (JSONObject) adminObj.get(i);
-	    		final String objUser = (String) obj.get("userid");
-	    		final String objPassword = (String) obj.get("password");
-	    		itemMap.put(objUser,objPassword);
-	    	}
-	    System.out.println("Item in map :" + itemMap.toString());
-	    if (itemMap.containsKey(userTf)) {
-	    	 final String password = itemMap.get(userTf);
-	    	 if (passTf.equals(password)){
-	    		 Notification.show("Admin User has changs to " + userTf);
-	    	     cAdminTf.setValue(userTf);
-	    	     cAdminTf.setEnabled(false);
-	                tf1.setEnabled(false);
-	                tf2.setEnabled(false);
-	                tf3.setEnabled(false);
-	                tf4.setEnabled(false);
-	                tf5.setEnabled(false);
-	                tf6.setEnabled(false);
-	                tfUser.setEnabled(false);
-	                tfPass.setEnabled(false);
-	                tfPassAgain.setEnabled(false);
-	                
-	    	     buildJson(tf1,tf2,tf3,userTf); 
-	    	 }else if(passTf != password) {
-	    		 Notification.show("Wrong password : please try agin.");
-	    	 }
-	    }
+        final DataTypeInfo data = new DataTypeInfo();
+        jsonObj = data.getAdmins();
+        final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
+        for (int i = 0; i < adminObj.size(); i++) {
+            final JSONObject obj = (JSONObject) adminObj.get(i);
+            final String objUser = (String) obj.get("userid");
+            final String objPassword = (String) obj.get("password");
+            itemMap.put(objUser,objPassword);
+        }
+        System.out.println("Item in map :" + itemMap.toString());
+        if (itemMap.containsKey(userTf)) {
+            final String password = itemMap.get(userTf);
+            if (passTf.equals(password)) {
+                Notification.show("Admin User has changs to " + userTf);
+                caAdminTf.setValue(userTf);
+                caAdminTf.setEnabled(false);
+                tf1.setEnabled(false);
+                tf2.setEnabled(false);
+                tf3.setEnabled(false);
+                tf4.setEnabled(false);
+                tf5.setEnabled(false);
+                tf6.setEnabled(false);
+                tfUser.setEnabled(false);
+                tfPass.setEnabled(false);
+                tfPassAgain.setEnabled(false);
+                buildJson(tf1,tf2,tf3,userTf);
+            } else if (passTf != password) {
+                Notification.show("Wrong password : please try agin.");
+            }
+        }
     }
+
     @SuppressWarnings("unchecked")
-	private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf) throws IOException, ParseException{
-    	final String tfA = tf1.getValue();
-    	final String tfB = tf2.getValue();
-    	final String tfC = tf3.getValue(); 
-		final JSONObject ca = new JSONObject();
-		final JSONObject IpObj = new JSONObject();	
-		ca.put("Control Panel Access", IpObj);
-		final JSONArray ipArray = new JSONArray();
-		final JSONObject supIp = new JSONObject();	
-		supIp.put("ip1",tfA.toString());
-		supIp.put("ip2",tfB.toString());
-		supIp.put("ip3",tfC.toString());	
-		ipArray.add(supIp);
-		IpObj.put("Ip", ipArray);
-		final JSONArray adminArray = new JSONArray();
-		final JSONObject user = new JSONObject();
-		user.put("userid", userTf);
-		adminArray.add(user);
-		ca.put("Admin", adminArray);		
-		JsonController controller = new JsonController();
-		controller.writeJsonInAccessFile(ca);		
-	}
+    private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf) throws IOException, ParseException{
+        final String tfA = tf1.getValue();
+        final String tfB = tf2.getValue();
+        final String tfC = tf3.getValue();
+        final JSONObject ca = new JSONObject();
+        final JSONObject IpObj = new JSONObject();
+        ca.put("Control Panel Access", IpObj);
+        final JSONArray ipArray = new JSONArray();
+        final JSONObject supIp = new JSONObject();
+        supIp.put("ip1",tfA.toString());
+        supIp.put("ip2",tfB.toString());
+        supIp.put("ip3",tfC.toString());
+        ipArray.add(supIp);
+        IpObj.put("Ip", ipArray);
+        final JSONArray adminArray = new JSONArray();
+        final JSONObject user = new JSONObject();
+        user.put("userid", userTf);
+        adminArray.add(user);
+        ca.put("Admin", adminArray);
+        JsonController controller = new JsonController();
+        controller.writeJsonInAccessFile(ca);
+    }
 }

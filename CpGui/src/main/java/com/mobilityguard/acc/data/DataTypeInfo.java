@@ -1,13 +1,14 @@
 package com.mobilityguard.acc.data;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import com.mobilityguard.acc.controller.JsonController;
 
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.mobilityguard.acc.controller.JsonController;
+import java.io.IOException;
+
 
 public class DataTypeInfo {
     public static final String STATUS = "Status";
@@ -19,7 +20,7 @@ public class DataTypeInfo {
     public static final String MAINTAIN = "Maintenance";
     public static final String ACTIVATEEX = "Activate Changes";
     private JSONObject jsonObj = null;
-    static final Logger logger = Logger.getLogger(DataTypeInfo.class);
+    private static final Logger log = (Logger) LoggerFactory.getLogger(DataTypeInfo.class);
 
     /**
      * @return JsonObject.
@@ -30,12 +31,12 @@ public class DataTypeInfo {
         try {
             jsonObj = jsoncontroller.loadJsonAccess();
             if (jsonObj.isEmpty()) {
-                logger.info("Json Object is empty!");
+                log.error("Json Object is empty!");
             }
         } catch (IOException e) {
-            logger.error("IOException" + e.getStackTrace());
+            log.error("IOException" + e.getStackTrace());
         } catch (ParseException e) {
-            logger.error("ParseException" + e.getStackTrace());
+            log.error("ParseException" + e.getStackTrace());
         }
         return jsonObj;
     }
@@ -53,12 +54,12 @@ public class DataTypeInfo {
         try {
             jsonObj = jsoncontroller.loadJsonAccess();
             if (jsonObj.isEmpty()) {
-                logger.info("Json Object is empty!");
+                log.error("Json Object is empty!");
             }
         } catch (IOException e) {
-            logger.error("IOException" + e.getStackTrace());
+            log.error("IOException" + e.getStackTrace());
         } catch (ParseException e) {
-            logger.error("ParseException" + e.getStackTrace());
+            log.error("ParseException" + e.getStackTrace());
         }
         return jsonObj;
     }
@@ -67,31 +68,38 @@ public class DataTypeInfo {
         return TLSS;
     }
 
+    /**
+     * @return jsonobject.
+     */
     public JSONObject getSyslog() {
         final JsonController jsoncontroller = new JsonController();
         try {
             jsonObj = jsoncontroller.loadJsonSyslog();
             if (jsonObj.isEmpty()) {
-                logger.info("Json Object is empty!");
+                log.error("Json Object is empty!");
             }
         } catch (IOException e) {
-            logger.error("IOException" + e.getStackTrace());
+            log.error("IOException" + e.getStackTrace());
         } catch (ParseException e) {
-            logger.error("ParseException" + e.getStackTrace());
+            log.error("ParseException" + e.getStackTrace());
         }
         return jsonObj;
     }
-    public JSONObject getIP() {
+
+    /**
+     * @return JSONObject.
+     */
+    public JSONObject getIp() {
         final JsonController jsoncontroller = new JsonController();
         try {
             jsonObj = jsoncontroller.loadIpInof();
             if (jsonObj.isEmpty()) {
-                logger.info("Json Object is empty!");
+                log.info("Json Object is empty!");
             }
         } catch (IOException e) {
-            logger.error("IOException" + e.getStackTrace());
+            log.error("IOException" + e.getStackTrace());
         } catch (ParseException e) {
-            logger.error("ParseException" + e.getStackTrace());
+            log.error("ParseException" + e.getStackTrace());
         }
         return jsonObj;
     }
@@ -107,6 +115,7 @@ public class DataTypeInfo {
     public String getActiveEx() {
         return ACTIVATEEX;
     }
+
     /**
      * @return JsonObject.
      */
@@ -116,12 +125,12 @@ public class DataTypeInfo {
         try {
             jsonObj = jsoncontroller.loadJsonAdmin();
             if (jsonObj.isEmpty()) {
-                logger.info("Json Object is empty!");
+                log.info("Json Object is empty!");
             }
         } catch (IOException e) {
-            logger.error("IOException" + e.getStackTrace());
+            log.error("IOException" + e.getStackTrace());
         } catch (ParseException e) {
-            logger.error("ParseException" + e.getStackTrace());
+            log.error("ParseException" + e.getStackTrace());
         }
         return jsonObj;
     }

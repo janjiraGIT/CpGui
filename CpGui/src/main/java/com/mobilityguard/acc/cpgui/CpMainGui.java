@@ -1,48 +1,34 @@
 package com.mobilityguard.acc.cpgui;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.mobilityguard.acc.data.DataTypeInfo;
 
-import com.vaadin.annotations.PropertyId;
+import org.json.simple.JSONObject;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.ClassResource;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.GridLayout.OutOfBoundsException;
-import com.vaadin.ui.GridLayout.OverlapsException;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
+import javax.servlet.annotation.WebServlet;
 import java.util.Set;
 
 
-@Theme("mytheme")
+@Theme("cpTheme")
 public class CpMainGui extends UI {
-	private static final String ACCESS = "Access Config for Control Panel";
-	private static final String MENU_LAYOUT = "menuLayout";
+    private static final String ACCESS = "Access Config for Control Panel";
+    private static final String MENU_LAYOUT = "menuLayout";
     private static final String STATUS = "Status";
     private static final String ACTIVATE_CHANGES = "Activate Changes";
     private static final String MAINTENANCE = "Maintenance";
     private static final String REPORT_CONFIG = "Report Config";
     private static final String SYSLOG = "Syslog";
-    private static final String SELECTED = "Selected : ";
     private static final String TLS_SERVER_SETTINGS = "TLS Server settings";
     private static final String ACCESS_CONFIG_FOR_CONTROL_PANEL = ACCESS;
     private static final String NETWORK = "Network";
@@ -52,7 +38,6 @@ public class CpMainGui extends UI {
     private DataTypeInfo dataTypeInfo = new DataTypeInfo();
     private JSONObject access = null;
     private JSONObject syslog = null;
-    private static final Logger logger = Logger.getLogger(CpMainGui.class);
 
     @Override
     protected void init(final VaadinRequest vaadinRequest) {
@@ -124,48 +109,50 @@ public class CpMainGui extends UI {
         selectMenu.addValueChangeListener(event -> {
             final Set<String> selected = event.getValue();
             if (selected.contains(STATUS)) {
-            	window.close();
+                window.close();
                 window = image.createImageTheme();
                 addWindow(window);
             } else if ( selected.contains(NETWORK)) {
-            	window.close();
+                window.close();
                 final NetworkWindow nwWindow = new NetworkWindow();
                 window = nwWindow.crateNetworkWindow();
                 addWindow(window);
             } else if (selected.contains(ACCESS_CONFIG_FOR_CONTROL_PANEL)) {
-            	window.close();
-            	final AccessWindow acWindow = new AccessWindow();
+                window.close();
+                final AccessWindow acWindow = new AccessWindow();
                 window = acWindow.createAccessGui(access);
                 addWindow(window);
             } else if (selected.contains(TLS_SERVER_SETTINGS)) {
-            	window.close();
-            	final TlsWindow tlsWindow = new TlsWindow();
+                window.close();
+                final TlsWindow tlsWindow = new TlsWindow();
                 window = tlsWindow.createTlsWindow();
                 addWindow(window);
             } else if (selected.contains(SYSLOG)) {
-            	window.close();
-            	final SyslogWindow sysWindow = new SyslogWindow();
-				window = sysWindow.createSyslogGui(syslog);
+                window.close();
+                final SyslogWindow sysWindow = new SyslogWindow();
+                window = sysWindow.createSyslogGui(syslog);
                 addWindow(window);
             } else if (selected.contains(REPORT_CONFIG)) {
-            	window.close();
+                window.close();
                 window = image.createImageTheme();
                 addWindow(window);
             } else if (selected.contains(MAINTENANCE)) {
-            	window.close();
+                window.close();
                 final Maintenance mainteNance = new Maintenance();
                 window = mainteNance.createMaintenanceWindow();
                 addWindow(window);
             } else if (selected.contains(ACTIVATE_CHANGES)) {
-            	window.close();
+                window.close();
                 window = image.createImageTheme();
                 addWindow(window);
             }
         });
 
     }
-    @WebServlet(urlPatterns = "/*", name = "CpUIServlet", asyncSupported = true)
+
+    @WebServlet(urlPatterns = "/*", name = "cpGuiServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = CpMainGui.class, productionMode = false)
-    public static class CpUIServlet extends VaadinServlet {
+    public static class CpGuiServlet extends VaadinServlet {
+        private static final long serialVersionUID = 1L;
     }
 }

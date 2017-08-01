@@ -27,13 +27,12 @@
 //$v-error-indicator-color: #ed473b;
 
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
-// Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Example
+// Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
 $v-font-size: 14px;
 
 $v-font-family:sans-serif;
 
-/* background set blue color*/
 $v-background-color: hsl(194, 100%, 95%);
 
 $v-focus-color: #007599 ;
@@ -43,11 +42,8 @@ $v-gradient: v-linear 50%;
 
 @import "../valo/valo.scss";
 
-@mixin mytheme {
+@mixin cpTheme {
 @include valo;
-	.v-panel .v-panel-content-desktop {
-    	background: url(photo.png);
-	}
 	.v-button-saveButton {
 		@include valo-button-style($background-color: hsl(194, 100%, 40%));
 		color:white;

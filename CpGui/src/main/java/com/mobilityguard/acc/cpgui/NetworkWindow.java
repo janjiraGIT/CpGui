@@ -1,11 +1,23 @@
 package com.mobilityguard.acc.cpgui;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Button.ClickEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class NetworkWindow {
 
@@ -23,26 +35,41 @@ public class NetworkWindow {
     public static final String GATEWAY = "Gateway";
     public static final String IPV4 = "IPv4";
     public static final String IPV6 = "IPv6";
+    private TextField tfHostname = null;
+    private TextField tfDomain = null;
+    private TextField tfDns1 = null;
+    private TextField tfDns2 = null;
+    private String hostStr;
+    private String domainStr;
+    private String dns1Str  ;
+    private String dns2Str  ;
+    private Map<String, String> list;
+    private static final Logger log = LoggerFactory.getLogger(NetworkWindow.class);
+
 
     /**
      * return Network window.
      */
     public Window crateNetworkWindow() {
-        final Window nwWindow = new Window("Network Setttings Window");
+        final Window nwWindow = new Window();
+        final Panel panel = new Panel("Network Setttings Window");
         final VerticalLayout layout = new VerticalLayout();
-
+        panel.setContent(layout);
+        panel.setHeightUndefined();
+        nwWindow.setContent(panel);
+        layout.setMargin(true);
         layout.setSizeFull();
-        nwWindow.setContent(layout);
+        layout.setSizeFull();
         nwWindow.setPositionX(300);
         nwWindow.setPositionY(65);
-        nwWindow.setHeight("80%");
-        nwWindow.setWidth("45%");
+        nwWindow.setHeight("67%");
+        nwWindow.setWidth("36%");
 
         final GridLayout grid = new GridLayout(7,30);
         grid.addStyleName("gridNetwork");
         grid.space();
-        grid.setWidth("600px");
-        grid.setHeight("600px");
+        grid.setWidth("670px");
+        grid.setHeight("607px");
 
         final Label ncTitle = new Label(NC_TITLE);
         ncTitle.setStyleName("ncTitle");
@@ -63,14 +90,40 @@ public class NetworkWindow {
         grid.addComponent(dns1,1,4);
         grid.addComponent(dns2,1,5);
 
-        final TextField tf1 = new TextField();
-        final TextField tf2 = new TextField();
-        final TextField tf3 = new TextField();
-        final TextField tf4 = new TextField();
-        grid.addComponent(tf1,2,2);
-        grid.addComponent(tf2,2,3);
-        grid.addComponent(tf3,2,4);
-        grid.addComponent(tf4,2,5);
+        tfHostname = new TextField();
+        tfDomain = new TextField();
+        tfDns1 = new TextField();
+        tfDns2 = new TextField();
+        list = new HashMap<String, String>();
+
+        tfHostname.addValueChangeListener(event -> {
+            hostStr = event.getValue();
+            list.put("host", hostStr);
+        });
+        tfDomain.addValueChangeListener(event -> {
+            domainStr = event.getValue();
+            list.put("domain", domainStr);
+
+        });
+        tfDns1.addValueChangeListener(event -> {
+            dns1Str = event.getValue();
+            list.put("dns1Str", dns1Str);
+
+        });
+        tfDns2.addValueChangeListener(event -> {
+            dns2Str = event.getValue();
+            list.put("dns2Str", dns2Str);
+        });
+        for ( Map.Entry<String, String> entry : list.entrySet()) {
+            log.info(entry.getKey());
+            log.info(entry.getValue());
+        }
+
+        grid.addComponent(tfHostname,2,2);
+        grid.addComponent(tfDomain,2,3);
+        grid.addComponent(tfDns1,2,4);
+        grid.addComponent(tfDns2,2,5);
+
         final Label icTitle = new Label(IC_TITLE);
         icTitle.setStyleName("icTitle");
         grid.addComponent(icTitle,0,6);
@@ -162,16 +215,31 @@ public class NetworkWindow {
         grid.addComponent(tfAddV61,3,18);
         grid.addComponent(tfNmV61,3,19);
         grid.addComponent(tfGwV61,3,20);
-        final ButtonsFactory button = new ButtonsFactory();
-        String save = "save";
-        String cancel = "cancel";
-        int row = 2;
-        int col = 26;
-        button.createSaveCancelButtons(grid,save,cancel,row, col);
-        //createSaveCancelButtons(grid);
+
+        final HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setStyleName("buttonBackground");
+        final Button save = new Button("save");
+        save.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                Notification.show(hostStr + domainStr + dns1Str + dns2Str);
+                System.out.println(hostStr + domainStr + dns1Str + dns2Str);
+               // buildJson(hostStr,domainStr,dns1Str,dns2Str);
+            }
+        });
+        save.setStyleName("saveButton");
+        final Button cancelButton = new Button("cancel");
+        cancelButton.setStyleName("cancelButton");
+        buttonLayout.addComponents(save,cancelButton);
+        buttonLayout.setSpacing(true);
+        grid.addComponent(buttonLayout,2,26);
         layout.addComponent(grid);
 
         return nwWindow;
+    }
+
+    private void buildJson(){
+
     }
 
     /**
@@ -189,5 +257,4 @@ public class NetworkWindow {
         }
         ;
     }
-
 }

@@ -14,7 +14,6 @@ public class UserChangWindow {
      * @param grid.
      */
     public void changeUser(final GridLayout grid) {
-        //final Window userWindow = new Window("Change admin credentials");
         final VerticalLayout layoutUser = new VerticalLayout();
         layoutUser.setSizeFull();
         final Label adUser = new Label(ADMIN_USER);
@@ -33,16 +32,14 @@ public class UserChangWindow {
         grid.addComponent(tfUser,1,16);
         grid.addComponent(tfPass,1,17);
         grid.addComponent(tfPassAgain,1,18);
-        
-        tfUser.addValueChangeListener(event -> {
-        	String userTf = event.getValue();
+        tfUser.addValueChangeListener( event -> {
+            String userTf = event.getValue();
         });
-        tfPass.addValueChangeListener(event -> {
-        	String passTf = event.getValue();
+        tfPass.addValueChangeListener( event -> {
+            String passTf = event.getValue();
         });
-        tfPassAgain.addValueChangeListener(event -> {
-        	String passAgainTf = event.getValue();
+        tfPassAgain.addValueChangeListener( event -> {
+            String passAgainTf = event.getValue();
         });
-        
     }
 }

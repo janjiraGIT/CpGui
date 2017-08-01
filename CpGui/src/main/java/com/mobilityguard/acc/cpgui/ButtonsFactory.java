@@ -3,14 +3,10 @@ package com.mobilityguard.acc.cpgui;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 
 public class ButtonsFactory {
-    //final Window window = new Window();
-
     /**
      * create button for save and cancel.
      */

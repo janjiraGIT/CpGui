@@ -8,38 +8,38 @@ import com.vaadin.ui.Window;
 
 public class ImagesWindow {
 
-	private ThemeResource resource = null;
-	private Image image = null;
+    private ThemeResource resource = null;
+    private Image image = null;
 
-	/**
-	 * @return the default image window.
-	 */
-	public Window createImageTheme(){
-		final Window nwWindow = new Window("");
+    /**
+     * @return the default image window.
+     */
+    public Window createImageTheme() {
+        final Window nwWindow = new Window("");
         final VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
         nwWindow.setContent(layout);
         nwWindow.setPositionX(300);
         nwWindow.setPositionY(65);
         nwWindow.setHeight("85%");
-        nwWindow.setWidth("77%");      
+        nwWindow.setWidth("77%");
         final Panel panel = new Panel();
         layout.addComponent(panel);
-		resource = new ThemeResource("ocean.jpg");
-		image = new Image("Image",resource);
-		image.setSizeFull();
-		panel.setContent(image);
-		panel.setSizeFull();	
-		return nwWindow;		
-	}
+        resource = new ThemeResource("ocean.jpg");
+        image = new Image("Image",resource);
+        image.setSizeFull();
+        panel.setContent(image);
+        panel.setSizeFull();
+        return nwWindow;
+    }
 
-	/**
-	 * @return logo of MobilityGuard AB.
-	 */	
-	public Image getLogoMobilityGuard(){
-		resource = new ThemeResource("images.jpeg");
-		image = new Image(null, resource);
-		return image;
-		
-	}
+    /**
+     * @return logo of MobilityGuard AB.
+     */
+    public Image getLogoMobilityGuard() {
+        resource = new ThemeResource("images.jpeg");
+        image = new Image(null, resource);
+        return image;
+    }
 }
+

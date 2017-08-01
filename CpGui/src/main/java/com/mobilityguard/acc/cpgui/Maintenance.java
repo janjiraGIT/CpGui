@@ -4,7 +4,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
@@ -16,26 +16,29 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 
-
 public class Maintenance {
     private Embedded files = new Embedded("Upload Image");
+    private GridLayout mnGrid;
+    private Label lb = new Label("File name");
 
     /**
      * @return Maintenance window.
      */
     public Window createMaintenanceWindow() {
-        final Window mnWindow = new Window("Maintenance Window");
+        final Window mnWindow = new Window();
         final VerticalLayout mnLayout = new VerticalLayout();
+        final Panel panel = new Panel("Maintenance Window");
+        panel.setContent(mnLayout);
+        mnWindow.setContent(panel);
         mnLayout.setSizeFull();
-        mnWindow.setContent(mnLayout);
         mnWindow.setPositionX(300);
         mnWindow.setPositionY(65);
-        mnWindow.setHeight("50%");
-        mnWindow.setWidth("30%");
-        final GridLayout mnGrid = new GridLayout(7,30);
+        mnWindow.setHeight("36%");
+        mnWindow.setWidth("20%");
+        mnGrid = new GridLayout(7,30);
         mnGrid.addStyleName("mnGrid");
-        mnGrid.setWidth("400px");
-        mnGrid.setHeight("400px");
+        mnGrid.setWidth("507px");
+        mnGrid.setHeight("300px");
         final Label mnTitle = new Label("Upgrade Software");
         mnTitle.addStyleName("mnTitle");
         final Label mnText = new Label();
@@ -43,13 +46,12 @@ public class Maintenance {
         mnText.setValue("Please choose the software package file to upload.");
         mnGrid.addComponent(mnTitle,0,1);
         mnGrid.addComponent(mnText,0,2);
-        ImageUploader receiver = new ImageUploader();
+        final ImageUploader receiver = new ImageUploader();
         final Upload upload = new Upload("upload here ", receiver);
         upload.setImmediateMode(false);
         upload.setButtonCaption("Start Upload");
         upload.setStyleName("upload");
         upload.addSucceededListener(receiver);
-
         mnGrid.addComponent(upload,0,4);
         files = new Embedded("Upload Image");
         files.setVisible(false);
@@ -57,36 +59,39 @@ public class Maintenance {
         mnLayout.addComponent(mnGrid);
         return mnWindow;
     }
-		class ImageUploader implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
-    	        private static final long serialVersionUID = -1276759102490466761L;
-    	        public File file;
 
-    	        @Override
-    	        public OutputStream receiveUpload(final String filename, final String mimeType) {
-    	            FileOutputStream fos = null;
-    	            try {
-    	                file = new File("/Users/janjiraeriksson/code/git/CpGui/CpGui/jsonFile/" + filename);
-    	                fos = new FileOutputStream(file);
-    	            } catch (Exception e) {
-    	                System.out.println(e.getStackTrace());
-    	                return null;
-    	            }
-    	            return fos;
-    	        }
+    class ImageUploader implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
+        private static final long serialVersionUID = -1276759102490466761L;
+        public File file;
 
-    	        @Override
-    	        public void uploadSucceeded(final SucceededEvent event) {
-    	            files.setVisible(true);
-    	            files.setSource(new FileResource(file));
-    	        }
+        @Override
+        public OutputStream receiveUpload(final String filename, final String mimeType) {
+            FileOutputStream fos = null;
+            try {
+                // this address for save a file in local Mac.
+                file = new File("/home/janjira/code/workspace/acc/cpgui/File/" + filename);
+                // this address for save a file local Mac.
+                // file = new File("/Users/janjiraeriksson/code/git/CpGui/CpGui/jsonFile/" + filename);
+                fos = new FileOutputStream(file);
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+                return null;
+            }
+            return fos;
+        }
 
+        @Override
+        public void uploadSucceeded(final SucceededEvent event) {
+            files.setVisible(true);
+            files.setSource(new FileResource(file));
+            lb.setValue("File name : " + event.getFilename() + " have been uploaded.");
+            mnGrid.addComponent(lb, 0,8);
+        }
 
-    	        public void uploadFailed(final FailedEvent event) {
-    	            // TODO Auto-generated method stub
-    	        }
-    	    }
-    	   ImageUploader receiver = new ImageUploader();
-    	   
-    	   
+        public void uploadFailed(final FailedEvent event) {
+            lb.setValue("File name : " + event.getFilename() + " failed uploaded.");
+            mnGrid.addComponent(lb, 0,8);
+        }
+    }
 }
 
