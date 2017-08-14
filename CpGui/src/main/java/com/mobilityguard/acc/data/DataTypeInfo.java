@@ -1,6 +1,7 @@
 package com.mobilityguard.acc.data;
 
 import com.mobilityguard.acc.controller.JsonController;
+import com.mobilityguard.acc.scripts.ScriptRunner;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -23,13 +24,12 @@ public class DataTypeInfo {
     private static final Logger log = (Logger) LoggerFactory.getLogger(DataTypeInfo.class);
 
     /**
-     * @return JsonObject.
+     * @return JsonObject of Access.
      */
-    public JSONObject getStatus() {
+    public JSONObject getData(final String addrUrl) {
         final JsonController jsoncontroller = new JsonController();
-        // only for test load Json data to Textfields.
         try {
-            jsonObj = jsoncontroller.loadJsonAccess();
+            jsonObj = jsoncontroller.loadFile(addrUrl);
             if (jsonObj.isEmpty()) {
                 log.error("Json Object is empty!");
             }
@@ -45,63 +45,8 @@ public class DataTypeInfo {
         return NETWORK;
     }
 
-    /**
-     * @return JsonObject of Access.
-     */
-    public JSONObject getAccess() {
-        final JsonController jsoncontroller = new JsonController();
-        // only for test load Json data to Textfields.
-        try {
-            jsonObj = jsoncontroller.loadJsonAccess();
-            if (jsonObj.isEmpty()) {
-                log.error("Json Object is empty!");
-            }
-        } catch (IOException e) {
-            log.error("IOException" + e.getStackTrace());
-        } catch (ParseException e) {
-            log.error("ParseException" + e.getStackTrace());
-        }
-        return jsonObj;
-    }
-
     public String getTlss() {
         return TLSS;
-    }
-
-    /**
-     * @return jsonobject.
-     */
-    public JSONObject getSyslog() {
-        final JsonController jsoncontroller = new JsonController();
-        try {
-            jsonObj = jsoncontroller.loadJsonSyslog();
-            if (jsonObj.isEmpty()) {
-                log.error("Json Object is empty!");
-            }
-        } catch (IOException e) {
-            log.error("IOException" + e.getStackTrace());
-        } catch (ParseException e) {
-            log.error("ParseException" + e.getStackTrace());
-        }
-        return jsonObj;
-    }
-
-    /**
-     * @return JSONObject.
-     */
-    public JSONObject getIp() {
-        final JsonController jsoncontroller = new JsonController();
-        try {
-            jsonObj = jsoncontroller.loadIpInof();
-            if (jsonObj.isEmpty()) {
-                log.info("Json Object is empty!");
-            }
-        } catch (IOException e) {
-            log.error("IOException" + e.getStackTrace());
-        } catch (ParseException e) {
-            log.error("ParseException" + e.getStackTrace());
-        }
-        return jsonObj;
     }
 
     public String getReportConfig() {
@@ -116,22 +61,9 @@ public class DataTypeInfo {
         return ACTIVATEEX;
     }
 
-    /**
-     * @return JsonObject.
-     */
-    public JSONObject getAdmins() {
-        final JsonController jsoncontroller = new JsonController();
-        // only for test load Json data to Textfields.
-        try {
-            jsonObj = jsoncontroller.loadJsonAdmin();
-            if (jsonObj.isEmpty()) {
-                log.info("Json Object is empty!");
-            }
-        } catch (IOException e) {
-            log.error("IOException" + e.getStackTrace());
-        } catch (ParseException e) {
-            log.error("ParseException" + e.getStackTrace());
-        }
-        return jsonObj;
+
+    public String loadNetworkInfo() {
+        final String jsonStr = ScriptRunner.getNetworkInterfaces();
+        return jsonStr.toString();
     }
 }

@@ -31,6 +31,8 @@ public class AccessWindow {
     private static final String ADMIN_PASSWORD_AGAIN = "Admin password again:";
     private static final String ADMIN_PASSWORD = "Admin password : ";
     private static final String ADMIN_USER = "Admin User : ";
+    private static final String ACCESS_URL = "/opt/acc/config/access.json";
+    private static final String ADMIN_URL = "/opt/acc/config/admin.json";
     private String userTf = null;
     private String passTf = null;
     private String passAgainTf = null;
@@ -138,6 +140,7 @@ public class AccessWindow {
         return acWindow;
     }
 
+    @SuppressWarnings("serial")
     private void createChangeButton(final GridLayout grid) {
         final VerticalLayout buttonLayout = new VerticalLayout();
         change = new Button("Change");
@@ -153,6 +156,7 @@ public class AccessWindow {
                 tf4.setEnabled(true);
                 tf5.setEnabled(true);
                 tf6.setEnabled(true);
+                change.setEnabled(false);
                 changeUser(grid);
             }
         });
@@ -161,6 +165,7 @@ public class AccessWindow {
     /**
      * @param grid.
      */
+    @SuppressWarnings("serial")
     private void changeUser(final GridLayout grid) {
         final VerticalLayout layoutUser = new VerticalLayout();
         layoutUser.setSizeFull();
@@ -242,9 +247,9 @@ public class AccessWindow {
     /**
      * Check user and password.
      */
-    public void checkAuthentication(final String userTf , final String passTf ) throws IOException, ParseException{
+    public void checkAuthentication(final String userTf , final String passTf ) throws IOException, ParseException {
         final DataTypeInfo data = new DataTypeInfo();
-        jsonObj = data.getAdmins();
+        jsonObj = data.getData(ADMIN_URL);
         final JSONArray adminObj = (JSONArray) jsonObj.get("Admin");
         for (int i = 0; i < adminObj.size(); i++) {
             final JSONObject obj = (JSONObject) adminObj.get(i);
@@ -252,7 +257,7 @@ public class AccessWindow {
             final String objPassword = (String) obj.get("password");
             itemMap.put(objUser,objPassword);
         }
-        System.out.println("Item in map :" + itemMap.toString());
+        log.info("Item in map :" + itemMap.toString());
         if (itemMap.containsKey(userTf)) {
             final String password = itemMap.get(userTf);
             if (passTf.equals(password)) {
@@ -268,7 +273,7 @@ public class AccessWindow {
                 tfUser.setEnabled(false);
                 tfPass.setEnabled(false);
                 tfPassAgain.setEnabled(false);
-                buildJson(tf1,tf2,tf3,userTf);
+                buildJson(tf1,tf2,tf3,userTf,passTf);
             } else if (passTf != password) {
                 Notification.show("Wrong password : please try agin.");
             }
@@ -276,7 +281,8 @@ public class AccessWindow {
     }
 
     @SuppressWarnings("unchecked")
-    private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3, final String userTf) throws IOException, ParseException{
+    private void buildJson(final TextField tf1,final TextField tf2,final TextField tf3,
+                    final String userTf, final String passTf) throws IOException, ParseException {
         final String tfA = tf1.getValue();
         final String tfB = tf2.getValue();
         final String tfC = tf3.getValue();
@@ -293,9 +299,10 @@ public class AccessWindow {
         final JSONArray adminArray = new JSONArray();
         final JSONObject user = new JSONObject();
         user.put("userid", userTf);
+        user.put("password",passTf);
         adminArray.add(user);
         ca.put("Admin", adminArray);
-        JsonController controller = new JsonController();
-        controller.writeJsonInAccessFile(ca);
+        final JsonController controller = new JsonController();
+        controller.writeIntoFile(ACCESS_URL, ca);
     }
 }

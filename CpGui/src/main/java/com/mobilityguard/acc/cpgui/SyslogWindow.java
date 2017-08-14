@@ -23,14 +23,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
-
-
 
 public class SyslogWindow {
     private static final String ALLOW_SYS_FROM = "Allow syslog from :";
     private static final String SYS_SETTING = "Syslog Settings";
+    private static final String SYSLOG = "/opt/acc/config/syslog.json";
+    private static final String IP_URL = "/opt/acc/config/ip.json";
     private TextField tf1 = new TextField();
     private TextField tf2 = new TextField();
     private TextField tf3 = new TextField();
@@ -86,13 +84,10 @@ public class SyslogWindow {
         save.setStyleName("saveButton");
         final Button cancelButton = new Button("cancel");
         final DataTypeInfo data = new DataTypeInfo();
-        // get list of ip address.
-        ipObj = data.getIp();
+        ipObj = data.getData(IP_URL);
         log.info("IP : " + ipObj.toString());
-        //System.out.println("IP : " + ipObj.toString());
         final JSONArray ipArray = (JSONArray) ipObj.get("IP");
         log.info("ipArray : " + ipArray.toString());
-        //System.out.println("ipArray : " + ipArray.toString());
         @SuppressWarnings("unchecked")
         final Iterator<String> iteratorListIp = ipArray.iterator();
         final ArrayList<String> arrayListIp = new ArrayList<String>();
@@ -202,7 +197,7 @@ public class SyslogWindow {
                 obj.put("Syslog", array);
                 final JsonController controller = new JsonController();
                 try {
-                    final JSONObject writeJsonInAccessFile = controller.writeJsonInSyslogFile(obj);
+                    final JSONObject writeJsonInAccessFile = controller.writeIntoFile(SYSLOG, obj);
                     writeJsonInAccessFile.toString();
                     Notification.show("Save new list in the ip file" + writeJsonInAccessFile.toString());
                 } catch (IOException | ParseException e) {
@@ -217,14 +212,15 @@ public class SyslogWindow {
      * @return Syslog list.
      */
     private ArrayList<String> getSyslog(final JSONObject syslog) {
+        ArrayList<String> listSyslog = new ArrayList<String>();
         final JSONArray sysArray = (JSONArray) syslog.get("Syslog");
         System.out.println(sysArray);
-        @SuppressWarnings("unchecked")
-        Iterator<String> list = sysArray.iterator();
-        ArrayList<String> listSyslog = new ArrayList<String>();
-        while (list.hasNext()) {
-            String obj = list.next();
-            listSyslog.add(obj);
+        if (sysArray != null) {
+            Iterator<String> list = sysArray.iterator();
+            while (list.hasNext()) {
+                String obj = list.next();
+                listSyslog.add(obj);
+            }
         }
         return listSyslog;
     }

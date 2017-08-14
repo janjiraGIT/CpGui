@@ -8,6 +8,10 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -20,6 +24,7 @@ public class Maintenance {
     private Embedded files = new Embedded("Upload Image");
     private GridLayout mnGrid;
     private Label lb = new Label("File name");
+    private static final Logger log = LoggerFactory.getLogger(Maintenance.class);
 
     /**
      * @return Maintenance window.
@@ -68,13 +73,10 @@ public class Maintenance {
         public OutputStream receiveUpload(final String filename, final String mimeType) {
             FileOutputStream fos = null;
             try {
-                // this address for save a file in local Mac.
-                file = new File("/home/janjira/code/workspace/acc/cpgui/File/" + filename);
-                // this address for save a file local Mac.
-                // file = new File("/Users/janjiraeriksson/code/git/CpGui/CpGui/jsonFile/" + filename);
+                file = new File("/opt/acc/config/upload/" + filename);
                 fos = new FileOutputStream(file);
             } catch (Exception e) {
-                System.out.println(e.getStackTrace());
+                log.error("Cound not upload file : " + filename + e.getStackTrace());
                 return null;
             }
             return fos;
@@ -84,7 +86,7 @@ public class Maintenance {
         public void uploadSucceeded(final SucceededEvent event) {
             files.setVisible(true);
             files.setSource(new FileResource(file));
-            lb.setValue("File name : " + event.getFilename() + " have been uploaded.");
+            lb.setValue("File name : " + event.getFilename() + " have been uploaded to address /opt/acc/config/upload/");
             mnGrid.addComponent(lb, 0,8);
         }
 

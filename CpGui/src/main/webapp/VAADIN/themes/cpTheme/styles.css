@@ -12677,6 +12677,13 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: center;
 }
 
+.cpTheme .v-label-ni02Title {
+	font-size: 16px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+}
+
 .cpTheme .v-label-Ipv4 {
 	font-weight: bold;
 	font-size: 15px;
@@ -12684,7 +12691,21 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: left;
 }
 
+.cpTheme .v-label-Ipv42 {
+	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-align: left;
+}
+
 .cpTheme .v-label-Ipv6 {
+	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-align: left;
+}
+
+.cpTheme .v-label-Ipv62 {
 	font-weight: bold;
 	font-size: 15px;
 	color: black;

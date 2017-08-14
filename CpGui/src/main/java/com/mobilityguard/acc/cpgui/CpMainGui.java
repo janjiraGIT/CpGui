@@ -3,6 +3,7 @@ package com.mobilityguard.acc.cpgui;
 import com.mobilityguard.acc.data.DataTypeInfo;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import java.util.Set;
 
 
+@SuppressWarnings("serial")
 @Theme("cpTheme")
 public class CpMainGui extends UI {
     private static final String ACCESS = "Access Config for Control Panel";
@@ -33,6 +35,8 @@ public class CpMainGui extends UI {
     private static final String ACCESS_CONFIG_FOR_CONTROL_PANEL = ACCESS;
     private static final String NETWORK = "Network";
     private static final String SELECT_LAYOUT = "selectLayout";
+    private static final String ACCESS_URL = "/opt/acc/config/access.json";
+    private static final String SYSLOG_URL = "/opt/acc/config/syslog.json";
     private static Window window = new Window();
     private ImagesWindow image = new ImagesWindow();
     private DataTypeInfo dataTypeInfo = new DataTypeInfo();
@@ -64,7 +68,6 @@ public class CpMainGui extends UI {
         return titleLayout;
     }
 
-
     private void setFooter(final VerticalLayout rootLayout) {
         final HorizontalLayout footerBackground = new HorizontalLayout();
         footerBackground.setWidth("100%");
@@ -79,7 +82,6 @@ public class CpMainGui extends UI {
     private HorizontalLayout addMenuBar() {
         final HorizontalLayout menuLayout = new HorizontalLayout();
         menuLayout.setStyleName(MENU_LAYOUT);
-
         final HorizontalLayout selectLayout = new HorizontalLayout();
         selectLayout.setStyleName(SELECT_LAYOUT);
         menuLayout.addComponent(selectLayout);
@@ -87,9 +89,9 @@ public class CpMainGui extends UI {
         selectLayout.setHeight("100%");
 
         final String network = dataTypeInfo.getNetwork();
-        access = dataTypeInfo.getAccess();
+        access = dataTypeInfo.getData(ACCESS_URL);
         final String tlss = dataTypeInfo.getTlss();
-        syslog = dataTypeInfo.getSyslog();
+        syslog = dataTypeInfo.getData(SYSLOG_URL);
         final String reportconfig = dataTypeInfo.getReportConfig();
         final String maintain = dataTypeInfo.getMaintain();
         final String activeex = dataTypeInfo.getActiveEx();
@@ -115,7 +117,11 @@ public class CpMainGui extends UI {
             } else if ( selected.contains(NETWORK)) {
                 window.close();
                 final NetworkWindow nwWindow = new NetworkWindow();
-                window = nwWindow.crateNetworkWindow();
+                try {
+                    window = nwWindow.crateNetworkWindow();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 addWindow(window);
             } else if (selected.contains(ACCESS_CONFIG_FOR_CONTROL_PANEL)) {
                 window.close();
